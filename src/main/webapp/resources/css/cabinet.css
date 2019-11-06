@@ -1,0 +1,164 @@
+* {
+    font-family: monospace;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(4, 32, 65);
+    margin: 0;
+}
+
+/* header */
+
+#header {
+    background-color: hsl(123, 100%, 84%);
+    overflow: hidden;
+}
+
+#buttons {
+    float: right;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#title {
+    display: inline-block;
+    color: inherit;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 10px 16px;
+}
+
+#buttons a {
+    display: inline-block;
+    color: inherit;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#buttons a:hover {
+    background-color: hsl(124, 100%, 77%);
+    font-weight: 600;
+    color: inherit;
+}
+
+/* left sidebar */
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sidebar {
+    flex: 30%;
+    padding: 20px;    
+}
+
+.sidebar .title {
+    color: inherit;
+    padding: 10px 5px;
+    text-align: center;
+    border-bottom: 0.5px solid rgb(167, 167, 167);
+    background-color: hsl(0, 0%, 89%);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sidebar a {
+    display: block;
+    color: inherit;
+    padding: 14px 5px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background-color: rgb(235, 235, 235);
+}
+
+.sidebar a.active {
+    border-left: 4px solid rgb(82, 82, 82);
+}
+
+.sidebar .block {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* main content */
+
+.content {
+    flex: 70%;
+    padding: 20px;
+    overflow: auto;
+}
+
+.content .block {
+    background-color: white;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 16px;
+    padding: 10px;
+}
+
+td {
+    padding: 14px;
+}
+
+th, td {
+    border: 0.5px solid rgb(167, 167, 167);    
+}
+
+th {
+    background-color: hsl(0, 0%, 89%);
+}
+
+tr:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.content .buttons {
+    padding: 10px;
+    text-align: center;
+}
+
+.content a {
+    display: inline-block;
+    background-color: rgb(241, 241, 241);
+    border: 1px solid rgb(88, 88, 88);
+    border-radius: 6px;
+    color: inherit;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.content a:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+@media screen and (max-width: 500px) {
+    #title, #buttons, #buttons a{
+        display: block;
+        text-align: center;
+    }
+
+    #buttons {
+        float: none;
+    }
+}
