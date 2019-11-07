@@ -19,7 +19,7 @@
         </span>
         <div id="buttons">
             <a href="#user">USERNAME</a>
-            <a href="#logout">ВЫЙТИ</a>
+            <a href="logout">ВЫЙТИ</a>
         </div>
     </div>
 
