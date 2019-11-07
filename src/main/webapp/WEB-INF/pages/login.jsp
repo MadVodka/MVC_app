@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 
@@ -13,7 +14,7 @@
 <body>
     <div class="form">
         <div class="title">Вход</div>
-        <form action="">
+        <form method="POST" action="perform_login">
             <div class="fields-container">
                 <label for="username">Логин</label>
                 <input type="text" name="username">

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+
 <html>
 
 <head>
     <meta charset='utf-8'>
     <title>Личный кабинет</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' href='css/cabinet.css'>
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/cabinet.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/cabinet.css">
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/cabinet.js"></script>
 </head>
 
 <body>
