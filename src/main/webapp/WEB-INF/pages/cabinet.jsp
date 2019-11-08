@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 
@@ -18,7 +19,7 @@
             Cars rent
         </span>
         <div id="buttons">
-            <a href="#user">USERNAME</a>
+            <a href="#user">${username}</a>
             <a href="logout">ВЫЙТИ</a>
         </div>
     </div>
@@ -27,15 +28,16 @@
         <div class="sidebar">
             <div class="block">
                 <div class="title">Меню</div>
-                <a href="#orders">Заказы</a>
-                <a href="#users" class="active">Пользователи</a>
-                <a href="#cars">Автомобили</a>
+                <a href="#orders" class="active">Заказы</a>
+                <sec:authorize access="hasRole('ADMIN')">
+                    <a href="#users">Пользователи</a>
+                    <a href="#cars">Автомобили</a>
+                </sec:authorize>
             </div>
-
         </div>
 
         <div class="content">
-            <div class="block" id="orders" hidden>
+            <div class="block" id="orders">
                 <table>
                     <tr>
                         <th>ID заказа</th>
@@ -62,7 +64,7 @@
                 </div>
             </div>
 
-            <div class="block" id="users">
+            <div class="block" id="users" hidden>
                 <table>
                     <tr>
                         <th>Логин</th>
