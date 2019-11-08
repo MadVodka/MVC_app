@@ -15,6 +15,9 @@
     <div class="form">
         <div class="title">Вход</div>
         <form method="POST" action="perform_login">
+            <c:if test="${not empty error}"><div>${error}</div></c:if>
+        	<c:if test="${not empty logout}"><div>${logout}</div></c:if>
+
             <div class="fields-container">
                 <label for="username">Логин</label>
                 <input type="text" name="username">

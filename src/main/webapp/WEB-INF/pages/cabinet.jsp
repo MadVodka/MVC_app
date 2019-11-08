@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 
@@ -78,6 +79,14 @@
                         <td>Гогуа</td>
                         <td>Активен</td>
                     </tr>
+                    <c:forEach items="${userList}" var="user">
+                        <tr>
+                            <td><c:out value="${user.userName}"/></td>
+                            <td><c:out value="${user.firstName}"/></td>
+                            <td><c:out value="${user.secondName}"/></td>
+                            <td><c:out value="${user.userStatus}"/></td>
+                        </tr>
+                    </c:forEach>
                 </table>
             </div>
 
