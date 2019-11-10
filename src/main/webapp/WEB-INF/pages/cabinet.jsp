@@ -29,16 +29,16 @@
         <div class="sidebar">
             <div class="block">
                 <div class="title">Меню</div>
-                <a href="#orders" class="active">Заказы</a>
+                <a href="/mvc/cabinet/orders">Заказы</a>
                 <sec:authorize access="hasRole('ADMIN')">
-                    <a href="#users">Пользователи</a>
-                    <a href="#cars">Автомобили</a>
+                    <a href="/mvc/cabinet/users">Пользователи</a>
+                    <a href="/mvc/cabinet/cars">Автомобили</a>
                 </sec:authorize>
             </div>
         </div>
 
         <div class="content">
-            <div class="block" id="orders">
+            <div class="block" id="orders" hidden>
                 <table>
                     <tr>
                         <th>ID заказа</th>
@@ -60,9 +60,9 @@
                     </tr>
                 </table>
 
-                <div class="buttons">
+                <!-- <div class="buttons">
                     <a href="/addorder">Оформить автомобиль</a>
-                </div>
+                </div> -->
             </div>
 
             <div class="block" id="users" hidden>
@@ -73,18 +73,20 @@
                         <th>Фамилия</th>
                         <th>Статус</th>
                     </tr>
-                    <tr onclick="" style="cursor: pointer">
-                        <td>golem</td>
-                        <td>Порфирий</td>
-                        <td>Гогуа</td>
-                        <td>Активен</td>
-                    </tr>
                     <c:forEach items="${userList}" var="user">
                         <tr>
-                            <td><c:out value="${user.userName}"/></td>
-                            <td><c:out value="${user.firstName}"/></td>
-                            <td><c:out value="${user.secondName}"/></td>
-                            <td><c:out value="${user.userStatus}"/></td>
+                            <td>
+                                <c:out value="${user.userName}" />
+                            </td>
+                            <td>
+                                <c:out value="${user.firstName}" />
+                            </td>
+                            <td>
+                                <c:out value="${user.secondName}" />
+                            </td>
+                            <td>
+                                <c:out value="${user.userStatus}" />
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

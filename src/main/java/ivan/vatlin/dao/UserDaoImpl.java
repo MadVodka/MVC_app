@@ -40,6 +40,12 @@ public class UserDaoImpl implements UserDao {
         return jdbcTemplate.query(sql, new UserMapper(), userRole.toString());
     }
 
+    @Override
+    public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
+        String sql = "select * from users limit ?, ?";
+        return jdbcTemplate.query(sql, new UserMapper(), pageNumber, usersPerPage);
+    }
+
     public int createUser(User user) {
         String sql = "insert users (user_name, first_name, second_name, role) values (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, user.getUserName(), user.getFirstName(), user.getSecondName(),

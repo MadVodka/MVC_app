@@ -17,6 +17,8 @@ public interface UserDao {
 
     List<User> getUsersByRole(UserRole userRole);
 
+    List<User> getUsersByPage(int pageNumber, int usersPerPage);
+
     int createUser(User user);
 
     int updateUserStatus(long id, UserStatus userStatus);
