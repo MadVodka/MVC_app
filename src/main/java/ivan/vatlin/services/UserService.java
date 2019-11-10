@@ -41,8 +41,7 @@ public class UserService {
 
     public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
         int startPosition = (pageNumber - 1) * usersPerPage;
-        int endPosition = startPosition + usersPerPage;
-        return userDao.getUsersByPage(startPosition, endPosition);
+        return userDao.getUsersByPage(startPosition, usersPerPage);
     }
 
     public List<User> getClients() {

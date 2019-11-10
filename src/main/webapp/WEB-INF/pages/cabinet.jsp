@@ -100,7 +100,7 @@
                         <th>Бренд</th>
                         <th>Статус</th>
                     </tr>
-                    <tr onclick="" style="cursor: pointer">
+                    <!-- <tr onclick="" style="cursor: pointer">
                         <td>451</td>
                         <td>Hyundai</td>
                         <td>Santa Fe</td>
@@ -117,8 +117,53 @@
                         <td>Lexus</td>
                         <td>RX350</td>
                         <td>В ремонте</td>
-                    </tr>
+                    </tr> -->
+                    <c:forEach items="${carList}" var="car">
+                        <tr>
+                            <td>
+                                <c:out value="${car.id}" />
+                            </td>
+                            <td>
+                                <c:out value="${car.carSpecification.brand}" />
+                            </td>
+                            <td>
+                                <c:out value="${car.carSpecification.model}" />
+                            </td>
+                            <td>
+                                <c:out value="${car.carStatus}" />
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </table>
+            </div>
+
+            <div id="pagination">
+                    <%--For displaying Previous link except for the 1st page --%>
+                    <c:if test="${currentPage != 1}">
+                        <td><a href="${sectionUrl}${currentPage - 1}">Previous</a></td>
+                    </c:if>
+                 
+                    <%--For displaying Page numbers. 
+                    The when condition does not display a link for the current page--%>
+                    <table border="1" cellpadding="5" cellspacing="5">
+                        <tr>
+                            <c:forEach begin="1" end="${numberOfPages}" var="i">
+                                <c:choose>
+                                    <c:when test="${currentPage eq i}">
+                                        <td>${i}</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><a href="${sectionUrl}${i}">${i}</a></td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </tr>
+                    </table>
+                     
+                    <%--For displaying Next link --%>
+                    <c:if test="${currentPage lt numberOfPages}">
+                        <td><a href="${sectionUrl}${currentPage + 1}">Next</a></td>
+                    </c:if>
             </div>
 
         </div>
