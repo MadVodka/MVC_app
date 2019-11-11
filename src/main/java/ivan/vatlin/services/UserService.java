@@ -39,6 +39,10 @@ public class UserService {
         }
     }
 
+    public boolean userNameExist(String userName) {
+        return getUserByUserName(userName) != null;
+    }
+
     public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
         int startPosition = (pageNumber - 1) * usersPerPage;
         return userDao.getUsersByPage(startPosition, usersPerPage);

@@ -65,10 +65,10 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public List<Car> getCarsBySearch(String text, String searchByParam) {
-        String textPattern = "%"+text+"%";
+        String textPattern = "%" + text + "%";
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
-                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where ? like ?";
-        return jdbcTemplate.query(sql, new CarMapper(), searchByParam, textPattern);
+                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where " + searchByParam + " like ?";
+        return jdbcTemplate.query(sql, new CarMapper(), textPattern);
     }
 
     @Override

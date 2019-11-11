@@ -8,15 +8,18 @@
     <title>Регистрация</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/form.css">
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/registration.js"></script>
 </head>
 
 <body>
     <div class="form">
         <div class="title">Регистрация</div>
-        <form action="">
+        <form action="registration">
             <div class="fields-container">
                 <label for="username">Логин</label>
-                <input type="text" name="username">
+                <input type="text" id="username" name="username">
+                <div id="username_check_response"></div>
 
                 <label for="firstName">Имя</label>
                 <input type="text" name="firstName">

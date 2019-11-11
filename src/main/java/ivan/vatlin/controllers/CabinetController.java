@@ -91,10 +91,7 @@ public class CabinetController {
     }
 
     @GetMapping("/cars/search")
-    public ModelAndView showCarsBySearch(@RequestParam String text, @RequestParam(required = false) String searchBy) {
-        if (searchBy == null || searchBy.equals("")) {
-            searchBy = "brand";
-        }
+    public ModelAndView showCarsBySearch(@RequestParam String text, @RequestParam(defaultValue = "brand") String searchBy) {
         List<Car> carsBySearch = carService.getCarsBySearch(text, searchBy);
         ModelAndView modelAndView = new ModelAndView("cabinet");
         modelAndView.addObject("carList", carsBySearch);

@@ -21,7 +21,7 @@
         </span>
         <div id="buttons">
             <a href="#user">${username}</a>
-            <a href="logout">ВЫЙТИ</a>
+            <a href="/mvc/logout">ВЫЙТИ</a>
         </div>
     </div>
 

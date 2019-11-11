@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = "ivan.vatlin.controllers")
+@ComponentScan(basePackages = {"ivan.vatlin.controllers", "ivan.vatlin.services", "ivan.vatlin.dao"})
 public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
