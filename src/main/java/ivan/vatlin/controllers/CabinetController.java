@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -86,6 +87,17 @@ public class CabinetController {
         modelAndView.addObject("currentPage", currentPage);
         modelAndView.addObject("sectionUrl", "/mvc/cabinet/cars/");
         modelAndView.addObject("numberOfPages", numberOfPages);
+        return modelAndView;
+    }
+
+    @GetMapping("/cars/search")
+    public ModelAndView showCarsBySearch(@RequestParam String text, @RequestParam(required = false) String searchBy) {
+        if (searchBy == null || searchBy.equals("")) {
+            searchBy = "brand";
+        }
+        List<Car> carsBySearch = carService.getCarsBySearch(text, searchBy);
+        ModelAndView modelAndView = new ModelAndView("cabinet");
+        modelAndView.addObject("carList", carsBySearch);
         return modelAndView;
     }
 }

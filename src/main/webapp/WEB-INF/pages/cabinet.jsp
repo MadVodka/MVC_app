@@ -38,6 +38,17 @@
         </div>
 
         <div class="content">
+
+            <div id="search">
+                <form action="/mvc/cabinet/cars/search" >
+                    <input type="text" name="text" placeholder="Вводите текст">
+                    <input type="radio" id="searchByBrand" name="searchBy" value="brand"><label for="searchByBrand">Бренд</label>
+                    <input type="radio" id="searchByModel" name="searchBy" value="model"><label for="searchByModel">Модель</label>
+                    <input type="radio" id="searchByYear" name="searchBy" value="year_made"><label for="searchByYear">Год</label>
+                    <button>Поиск</button>
+                </form>
+            </div>
+
             <div class="block" id="orders" hidden>
                 <table>
                     <tr>
@@ -96,8 +107,8 @@
                 <table>
                     <tr>
                         <th>ID автомобиля</th>
-                        <th>Модель</th>
                         <th>Бренд</th>
+                        <th>Модель</th>
                         <th>Статус</th>
                     </tr>
                     <!-- <tr onclick="" style="cursor: pointer">

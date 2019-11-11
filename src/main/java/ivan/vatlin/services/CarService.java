@@ -57,6 +57,10 @@ public class CarService {
         return carDao.getCarsWithPriceLessThan(price);
     }
 
+    public List<Car> getCarsBySearch(String text, String searchByParam) {
+        return carDao.getCarsBySearch(text, searchByParam);
+    }
+
     public List<Car> getCarsByPage(int pageNumber, int carsPerPage) {
         int startPosition = (pageNumber - 1) * carsPerPage;
         return carDao.getCarsByPage(startPosition, carsPerPage);

@@ -4,13 +4,9 @@ import ivan.vatlin.dto.Car;
 import ivan.vatlin.enums.CarStatus;
 import ivan.vatlin.mappers.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -65,6 +61,14 @@ public class CarDaoImpl implements CarDao {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id limit ?, ?";
         return jdbcTemplate.query(sql, new CarMapper(), pageNumber, carsPerPage);
+    }
+
+    @Override
+    public List<Car> getCarsBySearch(String text, String searchByParam) {
+        String textPattern = "%"+text+"%";
+        String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
+                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where ? like ?";
+        return jdbcTemplate.query(sql, new CarMapper(), searchByParam, textPattern);
     }
 
     @Override

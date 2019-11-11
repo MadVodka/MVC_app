@@ -22,6 +22,8 @@ public interface CarDao {
 
     List<Car> getCarsByPage(int pageNumber, int carsPerPage);
 
+    List<Car> getCarsBySearch(String text, String searchByParam);
+
     int getNumberOfCars();
 
     int addCar(Car car);
