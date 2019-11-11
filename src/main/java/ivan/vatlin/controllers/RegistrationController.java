@@ -3,9 +3,11 @@ package ivan.vatlin.controllers;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
@@ -25,9 +27,9 @@ public class RegistrationController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/check_username", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Map<String, Boolean> checkRegistrationData(@RequestParam("username") String userName) {
-//        return userService.userNameExist(userName);
+    @GetMapping(value = "/check_username", produces = "application/json")
+    public @ResponseBody
+    Map<String, Boolean> checkUserExist(@RequestParam("username") String userName) {
         return Collections.singletonMap("result", userService.userNameExist(userName));
     }
 }
