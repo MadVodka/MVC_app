@@ -10,7 +10,7 @@ public class User {
     private String secondName;
     private String password;
     private String matchingPassword;
-    private UserRole userRole;
+    private UserRole userRole = UserRole.USER;
     private UserStatus userStatus = UserStatus.ACTIVE; // by default a new user is active
 
     public long getId() {
@@ -48,6 +48,23 @@ public class User {
         this.secondName = secondName;
         return this;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
 
     public UserRole getUserRole() {
         return userRole;

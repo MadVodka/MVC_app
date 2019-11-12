@@ -1,5 +1,7 @@
 package ivan.vatlin.configuration;
 
+import ivan.vatlin.services.AppUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,14 +14,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private AppUserDetailService appUserDetailService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
-                .and()
-                .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
+//                .and()
+//                .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
+//                .and()
+//                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+        auth.userDetailsService(appUserDetailService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -37,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .defaultSuccessUrl("/cabinet")
                 .loginProcessingUrl("/perform_login")
-                .failureUrl("/login?error")
+//                .failureUrl("/login?error")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()

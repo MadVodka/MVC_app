@@ -7,6 +7,7 @@ import ivan.vatlin.enums.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,7 +57,8 @@ public class UserService {
         return userDao.getUsersByRole(UserRole.ADMIN);
     }
 
-    public int createUser(User user) {
+    @Transactional
+    public int registerUser(User user) {
         if (getUserByUserName(user.getUserName()) == null) {
             return userDao.createUser(user);
         }

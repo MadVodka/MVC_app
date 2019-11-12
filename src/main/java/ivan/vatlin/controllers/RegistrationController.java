@@ -4,10 +4,7 @@ import ivan.vatlin.dto.User;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
@@ -22,9 +19,20 @@ public class RegistrationController {
     @GetMapping
     public ModelAndView showRegistrationForm() {
         ModelAndView modelAndView = new ModelAndView("registration");
+        modelAndView.addObject("user", new User());
         User user = new User();
         modelAndView.addObject("user", user);
         return modelAndView;
+    }
+
+    @PostMapping
+    public String registerUser(@ModelAttribute User user) {
+        int result = userService.registerUser(user);
+        if (result >= 0) {
+            return "redirect:login";
+        } else {
+            return "redirect:error";
+        }
     }
 
     @GetMapping(value = "/check_username", produces = "application/json")

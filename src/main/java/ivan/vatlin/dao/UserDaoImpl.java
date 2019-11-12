@@ -6,6 +6,7 @@ import ivan.vatlin.enums.UserStatus;
 import ivan.vatlin.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         String sql = "select * from users";
@@ -47,9 +51,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     public int createUser(User user) {
-        String sql = "insert users (user_name, first_name, second_name, role) values (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, user.getUserName(), user.getFirstName(), user.getSecondName(),
-                user.getUserRole().toString());
+        String sql = "insert users (user_name, password, first_name, second_name, role) values (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, user.getUserName(), passwordEncoder.encode(user.getPassword()), user.getFirstName(),
+                user.getSecondName(), user.getUserRole().toString());
     }
 
     public int updateUserStatus(long id, UserStatus userStatus) {

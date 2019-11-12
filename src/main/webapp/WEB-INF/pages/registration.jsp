@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
 
@@ -15,29 +16,31 @@
 <body>
     <div class="form">
         <div class="title">Регистрация</div>
-        <form action="registration">
+        <form:form action="registration" method="POST" modelAttribute="user">
             <div class="fields-container">
                 <label for="username">Логин</label>
-                <input type="text" id="username" name="username">
+                <form:input type="text" id="username" path="userName"/>
                 <div id="username_check_response"></div>
 
                 <label for="firstName">Имя</label>
-                <input type="text" name="firstName">
+                <form:input type="text" path="firstName"/>
 
                 <label for="secondName">Фамилия</label>
-                <input type="text" name="secondName">
+                <form:input type="text" path="secondName"/>
 
                 <label for="password">Пароль</label>
-                <input type="password" name="password">
+                <form:input type="password" id="password" path="password"/>
+                <div id="password_error"></div>
 
                 <label for="repeatPassword">Повторите пароль</label>
-                <input type="password" name="repeatPassword">
+                <form:input type="password" id="checkPassword" path="matchingPassword"/>
+                <div id="check_password_error"></div>
             </div>
 
             <div class="button-container">
-                <button type="submit">Зарегистрироваться</button>
+                <button id="registerButton" type="submit" disabled="true">Зарегистрироваться</button>
             </div>
-        </form>
+        </form:form>
     </div>
 </body>
 
