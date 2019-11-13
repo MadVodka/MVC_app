@@ -26,8 +26,8 @@ public class OrderInfoMapper implements RowMapper<OrderInfo> {
 
         orderInfo.setId(rs.getLong("id"))
                 .setUser(user)
-                .setStartLocalDate(LocalDate.parse(rs.getString("start_date")))
-                .setEndLocalDate(LocalDate.parse(rs.getString("end_date")))
+                .setStartDate(LocalDate.parse(rs.getString("start_date")))
+                .setEndDate(LocalDate.parse(rs.getString("end_date")))
                 .setCarInfo(carInfo)
                 .setStatus(rs.getString("status"));
 

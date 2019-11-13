@@ -6,8 +6,8 @@ public class OrderInfo {
     private long id;
     private User user;
     private CarInfo carInfo;
-    private LocalDate startLocalDate;
-    private LocalDate endLocalDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String status;
 
     public long getId() {
@@ -37,21 +37,21 @@ public class OrderInfo {
         return this;
     }
 
-    public LocalDate getStartLocalDate() {
-        return startLocalDate;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public OrderInfo setStartLocalDate(LocalDate startLocalDate) {
-        this.startLocalDate = startLocalDate;
+    public OrderInfo setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
         return this;
     }
 
-    public LocalDate getEndLocalDate() {
-        return endLocalDate;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public OrderInfo setEndLocalDate(LocalDate endLocalDate) {
-        this.endLocalDate = endLocalDate;
+    public OrderInfo setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
         return this;
     }
 
