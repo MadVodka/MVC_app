@@ -26,13 +26,13 @@ public class OrderService {
         }
     }
 
-//    public int approveOrder(long id) {
-//        return orderDao.updateOrderStatus(id, OrderStatus.APPROVED);
-//    }
-//
-//    public int denyOrder(long id) {
-//        return orderDao.updateOrderStatus(id, OrderStatus.DENIED);
-//    }
+    public List<OrderInfo> getOrdersByUserName(String userName) {
+        try {
+            return orderDao.getOrdersByUserName(userName);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 
     public int createOrder(Order order) {
         return orderDao.createOrder(order);

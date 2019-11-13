@@ -10,7 +10,7 @@ public interface OrderDao {
 
     OrderInfo getOrderById(long id);
 
-//    int updateOrderStatus(long id, OrderStatus orderStatus);
+    List<OrderInfo> getOrdersByUserName(String userName);
 
     int createOrder(Order order);
 }

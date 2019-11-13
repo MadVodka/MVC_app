@@ -53,7 +53,7 @@ public class UserService {
         return userDao.getUsersByPage(startPosition, usersPerPage);
     }
 
-    public int getNumberOfCars() {
+    public int getNumberOfUsers() {
         return userDao.getNumberOfUsers();
     }
 

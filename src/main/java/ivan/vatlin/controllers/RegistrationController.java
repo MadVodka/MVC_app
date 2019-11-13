@@ -20,8 +20,6 @@ public class RegistrationController {
     public ModelAndView showRegistrationForm() {
         ModelAndView modelAndView = new ModelAndView("registration");
         modelAndView.addObject("user", new User());
-        User user = new User();
-        modelAndView.addObject("user", user);
         return modelAndView;
     }
 

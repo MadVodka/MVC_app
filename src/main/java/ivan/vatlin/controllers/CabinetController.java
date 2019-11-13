@@ -1,5 +1,6 @@
 package ivan.vatlin.controllers;
 
+import ivan.vatlin.components.AuthenticationFacade;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
@@ -7,7 +8,6 @@ import ivan.vatlin.services.CarService;
 import ivan.vatlin.services.OrderService;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -33,20 +32,28 @@ public class CabinetController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+
+//    @GetMapping
+//    public ModelAndView showCabinetPage(Authentication authentication, Principal principal) {
+//        ModelAndView modelAndView = new ModelAndView("cabinet");
+//        modelAndView.addObject("username", principal.getName());
+//
+//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//        boolean hasAdminRole = authorities.stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .anyMatch(role -> role.equals("ROLE_ADMIN"));
+//        if (hasAdminRole) {
+//            modelAndView.addObject("userList", userService.getAllUsers());
+//        }
+//
+//        return modelAndView;
+//    }
+
     @GetMapping
-    public ModelAndView showCabinetPage(Authentication authentication, Principal principal) {
-        ModelAndView modelAndView = new ModelAndView("cabinet");
-        modelAndView.addObject("username", principal.getName());
-
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        boolean hasAdminRole = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals("ROLE_ADMIN"));
-        if (hasAdminRole) {
-            modelAndView.addObject("userList", userService.getAllUsers());
-        }
-
-        return modelAndView;
+    public String showCabinetPage() {
+        return "redirect:cabinet/orders";
     }
 
     @GetMapping({"/users/{pageNumber}", "/users"})
@@ -62,7 +69,7 @@ public class CabinetController {
             currentPage = 1;
         }
 
-        int numberOfUsers = userService.getNumberOfCars();
+        int numberOfUsers = userService.getNumberOfUsers();
         int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
 
         ModelAndView modelAndView = new ModelAndView("all_users");
@@ -83,12 +90,16 @@ public class CabinetController {
 
     @GetMapping("/orders")
     public ModelAndView showOrders() {
-        List<OrderInfo> orderInfoList = orderService.getAllOrders();
+        List<OrderInfo> orderInfoList = null;
+        if (hasRole("USER")) {
+            String name = authenticationFacade.getAuthentication().getName();
+            orderInfoList = orderService.getOrdersByUserName(name);
+        } else if (hasRole("ADMIN")) {
+            orderInfoList = orderService.getAllOrders();
+        }
+
         ModelAndView modelAndView = new ModelAndView("all_orders");
         modelAndView.addObject("orderList", orderInfoList);
-        modelAndView.addObject("currentPage", 1);
-        modelAndView.addObject("sectionUrl", "/mvc/cabinet/orders/");
-        modelAndView.addObject("numberOfPages", 1);
         return modelAndView;
     }
 
@@ -122,5 +133,12 @@ public class CabinetController {
         ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carsBySearch);
         return modelAndView;
+    }
+
+    private boolean hasRole(String userRole) {
+        Collection<? extends GrantedAuthority> authorities = authenticationFacade.getAuthentication().getAuthorities();
+        return authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("ROLE_" + userRole));
     }
 }

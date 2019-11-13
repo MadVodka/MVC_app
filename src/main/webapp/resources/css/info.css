@@ -13,12 +13,19 @@ body {
     padding: 20px;
 }
 
-.entity-info {
+.not-found, .entity-info {
     background-color: white;
     margin: auto;
     max-width: 800px;
     border-radius: 5px;
     overflow: auto;
+}
+
+.not-found {
+    font-weight: 900;
+    font-size: 18px;
+    color: rgb(26, 25, 25);
+    text-align: center;
 }
 
 .title {
