@@ -17,7 +17,11 @@ public interface UserDao {
 
     List<User> getUsersByRole(UserRole userRole);
 
+    List<User> getUsersBySearch(String text, String searchByParam);
+
     List<User> getUsersByPage(int pageNumber, int usersPerPage);
+
+    int getNumberOfUsers();
 
     int createUser(User user);
 

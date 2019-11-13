@@ -1,8 +1,10 @@
 package ivan.vatlin.controllers;
 
 import ivan.vatlin.dto.Car;
+import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.services.CarService;
+import ivan.vatlin.services.OrderService;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,9 @@ public class CabinetController {
     @Autowired
     private CarService carService;
 
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping
     public ModelAndView showCabinetPage(Authentication authentication, Principal principal) {
         ModelAndView modelAndView = new ModelAndView("cabinet");
@@ -47,22 +52,43 @@ public class CabinetController {
     @GetMapping({"/users/{pageNumber}", "/users"})
     public ModelAndView showUsersByPage(@PathVariable Optional<Integer> pageNumber) {
         int usersPerPage = 3;
+        int currentPage;
         List<User> usersByPage;
         if (pageNumber.isPresent()) {
             usersByPage = userService.getUsersByPage(pageNumber.get(), usersPerPage);
+            currentPage = pageNumber.get();
         } else {
             usersByPage = userService.getUsersByPage(1, usersPerPage);
+            currentPage = 1;
         }
 
-        ModelAndView modelAndView = new ModelAndView("cabinet");
+        int numberOfUsers = userService.getNumberOfCars();
+        int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
+
+        ModelAndView modelAndView = new ModelAndView("all_users");
         modelAndView.addObject("userList", usersByPage);
+        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("sectionUrl", "/mvc/cabinet/users/");
+        modelAndView.addObject("numberOfPages", numberOfPages);
+        return modelAndView;
+    }
+
+    @GetMapping("/users/search")
+    public ModelAndView showUsersBySearch(@RequestParam String text, @RequestParam(defaultValue = "first_name") String searchBy) {
+        List<User> usersBySearch = userService.getUsersBySearch(text, searchBy);
+        ModelAndView modelAndView = new ModelAndView("all_users");
+        modelAndView.addObject("userList", usersBySearch);
         return modelAndView;
     }
 
     @GetMapping("/orders")
     public ModelAndView showOrders() {
-        ModelAndView modelAndView = new ModelAndView("cabinet");
-//        modelAndView.addObject("carList", usersByPage);
+        List<OrderInfo> orderInfoList = orderService.getAllOrders();
+        ModelAndView modelAndView = new ModelAndView("all_orders");
+        modelAndView.addObject("orderList", orderInfoList);
+        modelAndView.addObject("currentPage", 1);
+        modelAndView.addObject("sectionUrl", "/mvc/cabinet/orders/");
+        modelAndView.addObject("numberOfPages", 1);
         return modelAndView;
     }
 
@@ -82,7 +108,7 @@ public class CabinetController {
         int numberOfCars = carService.getNumberOfCars();
         int numberOfPages = (int) Math.ceil(numberOfCars * 1.0 / carsPerPage);
 
-        ModelAndView modelAndView = new ModelAndView("cabinet");
+        ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carsByPage);
         modelAndView.addObject("currentPage", currentPage);
         modelAndView.addObject("sectionUrl", "/mvc/cabinet/cars/");
@@ -93,7 +119,7 @@ public class CabinetController {
     @GetMapping("/cars/search")
     public ModelAndView showCarsBySearch(@RequestParam String text, @RequestParam(defaultValue = "brand") String searchBy) {
         List<Car> carsBySearch = carService.getCarsBySearch(text, searchBy);
-        ModelAndView modelAndView = new ModelAndView("cabinet");
+        ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carsBySearch);
         return modelAndView;
     }

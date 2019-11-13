@@ -45,9 +45,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> getUsersBySearch(String text, String searchByParam) {
+        String textPattern = "%" + text + "%";
+        String sql = "select * from users where " + searchByParam + " like ?";
+        return jdbcTemplate.query(sql, new UserMapper(), textPattern);
+    }
+
+    @Override
     public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
         String sql = "select * from users limit ?, ?";
         return jdbcTemplate.query(sql, new UserMapper(), pageNumber, usersPerPage);
+    }
+
+    @Override
+    public int getNumberOfUsers() {
+        String sql = "select count(*) from users";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     public int createUser(User user) {

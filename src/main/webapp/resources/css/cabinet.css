@@ -101,6 +101,24 @@ body {
     overflow: auto;
 }
 
+#search {
+    background-color: white;
+}
+
+#search button {
+    display: inline-block;
+    background-color: rgb(241, 241, 241);
+    border: 1px solid rgb(88, 88, 88);
+    border-radius: 6px;
+    color: inherit;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+#search button:hover {
+    background-color: rgb(219, 219, 219);
+}
+
 .content .block {
     background-color: white;
     border-radius: 5px;
@@ -127,6 +145,10 @@ th, td {
 
 th {
     background-color: hsl(0, 0%, 89%);
+}
+
+.block tr:not(:first-child) {
+    cursor: pointer;
 }
 
 tr:hover {

@@ -44,9 +44,17 @@ public class UserService {
         return getUserByUserName(userName) != null;
     }
 
+    public List<User> getUsersBySearch(String text, String searchBy) {
+        return userDao.getUsersBySearch(text, searchBy);
+    }
+
     public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
         int startPosition = (pageNumber - 1) * usersPerPage;
         return userDao.getUsersByPage(startPosition, usersPerPage);
+    }
+
+    public int getNumberOfCars() {
+        return userDao.getNumberOfUsers();
     }
 
     public List<User> getClients() {
