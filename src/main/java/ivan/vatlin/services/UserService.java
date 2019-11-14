@@ -15,9 +15,6 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
@@ -58,9 +55,6 @@ public class UserService {
     @Transactional
     public int registerUser(User user) {
         if (getUserByUserName(user.getUserName()) == null) {
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-
             return userDao.createUser(user);
         }
         return -1;

@@ -3,6 +3,7 @@ package ivan.vatlin.controllers;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,9 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
     public ModelAndView showRegistrationForm() {
         ModelAndView modelAndView = new ModelAndView("registration");
@@ -25,6 +29,9 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(@ModelAttribute User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
         int result = userService.registerUser(user);
         if (result >= 0) {
             return "redirect:login";
