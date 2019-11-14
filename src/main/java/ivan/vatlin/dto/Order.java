@@ -6,7 +6,6 @@ public class Order {
     private String startDate;
     private String endDate;
     private long userId;
-//    private OrderStatus orderStatus;
     private double pricePerDay;
     private double totalPrice;
 

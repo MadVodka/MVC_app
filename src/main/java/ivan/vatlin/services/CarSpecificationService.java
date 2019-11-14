@@ -1,21 +1,54 @@
 package ivan.vatlin.services;
 
+import ivan.vatlin.dao.CarSpecificationDao;
 import ivan.vatlin.dto.CarSpecification;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface CarSpecificationService {
-    List<CarSpecification> getCarSpecifications();
+@Service
+public class CarSpecificationService {
+    @Autowired
+    private CarSpecificationDao carSpecificationDao;
 
-    CarSpecification getCarSpecificationById(long id);
+    public List<CarSpecification> getCarSpecifications() {
+        return carSpecificationDao.getCarSpecifications();
+    }
 
-    CarSpecification getCarSpecificationByWholeInfo(CarSpecification carSpecification);
+    public CarSpecification getCarSpecificationById(long id) {
+        try {
+            return carSpecificationDao.getCarSpecificationById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 
-    List<CarSpecification> getCarSpecificationByBrand(String brand);
+    public CarSpecification getCarSpecificationByWholeInfo(CarSpecification carSpecification) {
+        try {
+            return carSpecificationDao.getCarSpecificationByWholeInfo(carSpecification);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 
-    List<CarSpecification> getCarSpecificationByYear(int year);
+    public List<CarSpecification> getCarSpecificationByBrand(String brand) {
+        return carSpecificationDao.getCarSpecificationByBrand(brand);
+    }
 
-    int createCarSpecification(CarSpecification carSpecification);
+    public List<CarSpecification> getCarSpecificationByYear(int year) {
+        return carSpecificationDao.getCarSpecificationByYear(year);
+    }
 
-    int deleteCarSpecification(long id);
+    public int createCarSpecification(CarSpecification carSpecification) {
+        if (getCarSpecificationByWholeInfo(carSpecification) == null) {
+            return carSpecificationDao.createCarSpecification(carSpecification);
+        }
+        return -1;
+    }
+
+    public int deleteCarSpecification(long id) {
+        return carSpecificationDao.deleteCarSpecification(id);
+    }
 }

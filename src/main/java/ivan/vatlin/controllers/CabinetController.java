@@ -35,22 +35,6 @@ public class CabinetController {
     @Autowired
     private AuthenticationFacade authenticationFacade;
 
-//    @GetMapping
-//    public ModelAndView showCabinetPage(Authentication authentication, Principal principal) {
-//        ModelAndView modelAndView = new ModelAndView("cabinet");
-//        modelAndView.addObject("username", principal.getName());
-//
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        boolean hasAdminRole = authorities.stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .anyMatch(role -> role.equals("ROLE_ADMIN"));
-//        if (hasAdminRole) {
-//            modelAndView.addObject("userList", userService.getAllUsers());
-//        }
-//
-//        return modelAndView;
-//    }
-
     @GetMapping
     public String showCabinetPage() {
         return "redirect:cabinet/orders";

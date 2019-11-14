@@ -1,34 +1,45 @@
 package ivan.vatlin.dao;
 
 import ivan.vatlin.dto.Car;
-import ivan.vatlin.enums.CarStatus;
+import ivan.vatlin.mappers.CarMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface CarDao {
-    List<Car> getAllCars();
+@Repository
+public class CarDao{
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-    Car getCarById(long id);
+    public List<Car> getAllCars() {
+        String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
+                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id";
+        return jdbcTemplate.query(sql, new CarMapper());
+    }
 
-    Car getCarByRegNumber(String regNumber);
+    public Car getCarById(long id) {
+        String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
+                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where c.id = ?";
+        return jdbcTemplate.queryForObject(sql, new CarMapper(), id);
+    }
 
-    List<Car> getCarsByStatus(CarStatus carStatus);
+    public List<Car> getCarsByPage(int pageNumber, int carsPerPage) {
+        String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
+                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id limit ?, ?";
+        return jdbcTemplate.query(sql, new CarMapper(), pageNumber, carsPerPage);
+    }
 
-    List<Car> getCarsWithPriceEqual(double price);
+    public List<Car> getCarsBySearch(String text, String searchByParam) {
+        String textPattern = "%" + text + "%";
+        String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
+                "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where " + searchByParam + " like ?";
+        return jdbcTemplate.query(sql, new CarMapper(), textPattern);
+    }
 
-    List<Car> getCarsWithPriceGreaterThan(double price);
-
-    List<Car> getCarsWithPriceLessThan(double price);
-
-    List<Car> getCarsByPage(int pageNumber, int carsPerPage);
-
-    List<Car> getCarsBySearch(String text, String searchByParam);
-
-    int getNumberOfCars();
-
-    int addCar(Car car);
-
-    int removeCar(long id);
-
-    int updateCarPrice(long id, double price);
+    public int getNumberOfCars() {
+        String sql = "select count(*) from cars";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
 }
