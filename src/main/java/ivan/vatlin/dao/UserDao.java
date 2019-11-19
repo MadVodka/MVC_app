@@ -29,6 +29,15 @@ public class UserDao {
         return jdbcTemplate.queryForObject(sql, new UserMapper(), userName);
     }
 
+    public long getUserIdByUserName(String userName) {
+        String sql = "select id from users where user_name = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, Long.TYPE, userName);
+        } catch (NullPointerException e) {
+            return -1;
+        }
+    }
+
     public List<User> getUsersByRole(UserRole userRole) {
         String sql = "select * from users where role = ?";
         return jdbcTemplate.query(sql, new UserMapper(), userRole.toString());

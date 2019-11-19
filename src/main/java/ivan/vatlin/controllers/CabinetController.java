@@ -8,7 +8,6 @@ import ivan.vatlin.services.CarService;
 import ivan.vatlin.services.OrderService;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,10 +74,10 @@ public class CabinetController {
     @GetMapping("/orders")
     public ModelAndView showOrders() {
         List<OrderInfo> orderInfoList = null;
-        if (hasRole("USER")) {
+        if (authenticationFacade.hasRole("USER")) {
             String name = authenticationFacade.getAuthentication().getName();
             orderInfoList = orderService.getOrdersByUserName(name);
-        } else if (hasRole("ADMIN")) {
+        } else if (authenticationFacade.hasRole("ADMIN")) {
             orderInfoList = orderService.getAllOrders();
         }
 
@@ -118,12 +116,5 @@ public class CabinetController {
         ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carsBySearch);
         return modelAndView;
-    }
-
-    private boolean hasRole(String userRole) {
-        Collection<? extends GrantedAuthority> authorities = authenticationFacade.getAuthentication().getAuthorities();
-        return authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals("ROLE_" + userRole));
     }
 }

@@ -37,4 +37,8 @@ public class OrderService {
     public int createOrder(Order order) {
         return orderDao.createOrder(order);
     }
+
+    public OrderInfo getUsersOrder (String userName, long orderId) {
+        return orderDao.getUsersOrder(userName, orderId);
+    }
 }
