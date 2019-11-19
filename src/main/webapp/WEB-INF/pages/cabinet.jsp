@@ -21,7 +21,7 @@
         </span>
         <div id="buttons">
             <a href="#user">${username}</a>
-            <a href="/mvc/logout">ВЫЙТИ</a>
+            <a href="${pageContext.request.contextPath}/logout">ВЫЙТИ</a>
         </div>
     </div>
 
@@ -29,10 +29,10 @@
         <div class="sidebar">
             <div class="block">
                 <div class="title">Меню</div>
-                <a href="/mvc/cabinet/orders">Заказы</a>
+                <a href="${pageContext.request.contextPath}/cabinet/orders">Заказы</a>
                 <sec:authorize access="hasRole('ADMIN')">
-                    <a href="/mvc/cabinet/users">Пользователи</a>
-                    <a href="/mvc/cabinet/cars">Автомобили</a>
+                    <a href="${pageContext.request.contextPath}/cabinet/users">Пользователи</a>
+                    <a href="${pageContext.request.contextPath}/cabinet/cars">Автомобили</a>
                 </sec:authorize>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="content">
 
             <div id="search">
-                <form action="/mvc/cabinet/cars/search" >
+                <form action="${pageContext.request.contextPath}/cabinet/cars/search" >
                     <input type="text" name="text" placeholder="Вводите текст">
                     <input type="radio" id="searchByBrand" name="searchBy" value="brand"><label for="searchByBrand">Бренд</label>
                     <input type="radio" id="searchByModel" name="searchBy" value="model"><label for="searchByModel">Модель</label>

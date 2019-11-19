@@ -21,7 +21,7 @@
             <sec:authorize access="isAuthenticated()">
                 <a><sec:authentication property="principal.username" /></a>
             </sec:authorize>
-            <a href="/mvc/logout">ВЫЙТИ</a>
+            <a href="${pageContext.request.contextPath}/logout">ВЫЙТИ</a>
         </div>
     </div>
 
@@ -31,8 +31,8 @@
                 <div class="title">Меню</div>
                 <a class="active">Заказы</a>
                 <sec:authorize access="hasRole('ADMIN')">
-                    <a href="/mvc/cabinet/users">Пользователи</a>
-                    <a href="/mvc/cabinet/cars">Автомобили</a>
+                    <a href="${pageContext.request.contextPath}/cabinet/users">Пользователи</a>
+                    <a href="${pageContext.request.contextPath}/cabinet/cars">Автомобили</a>
                 </sec:authorize>
             </div>
         </div>
@@ -47,7 +47,7 @@
                         <th>Статус</th>
                     </tr>
                     <c:forEach items="${orderList}" var="order">
-                        <tr onclick="document.location = '/mvc/order?id=${order.id}';">
+                        <tr onclick="document.location = '${pageContext.request.contextPath}/order?id=${order.id}';">
                             <td>
                                 <c:out value="${order.id}" />
                             </td>
@@ -56,7 +56,7 @@
                             </td>
                             <td>
                                 <c:out value="${order.user.firstName} ${order.user.secondName}" />
-                            </td>
+                             </td>
                             <td>
                                 <c:out value="${order.status}" />
                             </td>
@@ -66,7 +66,7 @@
 
                 <sec:authorize access="hasRole('USER')">
                     <div class="buttons">
-                        <a href="/mvc/add_order">Оформить автомобиль</a>
+                        <a href="${pageContext.request.contextPath}/add_order">Оформить автомобиль</a>
                     </div>
                 </sec:authorize>
             </div>

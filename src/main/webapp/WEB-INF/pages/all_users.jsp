@@ -22,7 +22,7 @@
                 <a>
                     <sec:authentication property="principal.username" /></a>
             </sec:authorize>
-            <a href="/mvc/logout">ВЫЙТИ</a>
+            <a href="${pageContext.request.contextPath}/logout">ВЫЙТИ</a>
         </div>
     </div>
 
@@ -30,10 +30,10 @@
         <div class="sidebar">
             <div class="block">
                 <div class="title">Меню</div>
-                <a href="/mvc/cabinet/orders">Заказы</a>
+                <a href="${pageContext.request.contextPath}/cabinet/orders">Заказы</a>
                 <sec:authorize access="hasRole('ADMIN')">
                     <a class="active">Пользователи</a>
-                    <a href="/mvc/cabinet/cars">Автомобили</a>
+                    <a href="${pageContext.request.contextPath}/cabinet/cars">Автомобили</a>
                 </sec:authorize>
             </div>
         </div>
@@ -41,7 +41,7 @@
         <div class="content">
 
             <div id="search">
-                <form action="/mvc/cabinet/users/search">
+                <form action="${pageContext.request.contextPath}/cabinet/users/search">
                     <input type="text" name="text" placeholder="Вводите текст">
                     <input type="radio" id="searchById" name="searchBy" value="id"><label for="searchById">Id
                         пользователя</label>
@@ -64,7 +64,7 @@
                         <th>Статус</th>
                     </tr>
                     <c:forEach items="${userList}" var="user">
-                        <tr onclick="document.location = '/mvc/user?id=${user.id}';">
+                        <tr onclick="document.location = '${pageContext.request.contextPath}/user?id=${user.id}';">
                             <td>
                                 <c:out value="${user.userName}" />
                             </td>

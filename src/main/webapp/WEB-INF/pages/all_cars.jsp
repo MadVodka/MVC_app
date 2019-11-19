@@ -22,7 +22,7 @@
                 <a>
                     <sec:authentication property="principal.username" /></a>
             </sec:authorize>
-            <a href="/mvc/logout">ВЫЙТИ</a>
+            <a href="${pageContext.request.contextPath}/logout">ВЫЙТИ</a>
         </div>
     </div>
 
@@ -30,9 +30,9 @@
         <div class="sidebar">
             <div class="block">
                 <div class="title">Меню</div>
-                <a href="/mvc/cabinet/orders">Заказы</a>
+                <a href="${pageContext.request.contextPath}/cabinet/orders">Заказы</a>
                 <sec:authorize access="hasRole('ADMIN')">
-                    <a href="/mvc/cabinet/users">Пользователи</a>
+                    <a href="${pageContext.request.contextPath}/cabinet/users">Пользователи</a>
                     <a class="active">Автомобили</a>
                 </sec:authorize>
             </div>
@@ -41,7 +41,7 @@
         <div class="content">
 
             <div id="search">
-                <form action="/mvc/cabinet/cars/search">
+                <form action="${pageContext.request.contextPath}/cabinet/cars/search">
                     <input type="text" name="text" placeholder="Вводите текст">
                     <input type="radio" id="searchByBrand" name="searchBy" value="brand"><label
                         for="searchByBrand">Бренд</label>
@@ -62,7 +62,7 @@
                         <th>Статус</th>
                     </tr>
                     <c:forEach items="${carList}" var="car">
-                        <tr onclick="document.location = '/mvc/car?id=${car.id}';">
+                        <tr onclick="document.location = '${pageContext.request.contextPath}/car?id=${car.id}';">
                             <td>
                                 <c:out value="${car.id}" />
                             </td>

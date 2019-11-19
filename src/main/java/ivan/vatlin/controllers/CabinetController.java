@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class CabinetController {
     }
 
     @GetMapping({"/users/{pageNumber}", "/users"})
-    public ModelAndView showUsersByPage(@PathVariable Optional<Integer> pageNumber) {
+    public ModelAndView showUsersByPage(@PathVariable Optional<Integer> pageNumber, HttpServletRequest request) {
         int usersPerPage = 3;
         int currentPage;
         List<User> usersByPage;
@@ -59,7 +60,7 @@ public class CabinetController {
         ModelAndView modelAndView = new ModelAndView("all_users");
         modelAndView.addObject("userList", usersByPage);
         modelAndView.addObject("currentPage", currentPage);
-        modelAndView.addObject("sectionUrl", "/mvc/cabinet/users/");
+        modelAndView.addObject("sectionUrl", request.getContextPath() + "/cabinet/users/");
         modelAndView.addObject("numberOfPages", numberOfPages);
         return modelAndView;
     }
@@ -88,7 +89,7 @@ public class CabinetController {
     }
 
     @GetMapping({"/cars", "/cars/{pageNumber}"})
-    public ModelAndView showCarsByPage(@PathVariable Optional<Integer> pageNumber) {
+    public ModelAndView showCarsByPage(@PathVariable Optional<Integer> pageNumber, HttpServletRequest request) {
         int carsPerPage = 3;
         List<Car> carsByPage;
         int currentPage;
@@ -106,7 +107,7 @@ public class CabinetController {
         ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carsByPage);
         modelAndView.addObject("currentPage", currentPage);
-        modelAndView.addObject("sectionUrl", "/mvc/cabinet/cars/");
+        modelAndView.addObject("sectionUrl", request.getContextPath() + "/cabinet/cars/");
         modelAndView.addObject("numberOfPages", numberOfPages);
         return modelAndView;
     }
