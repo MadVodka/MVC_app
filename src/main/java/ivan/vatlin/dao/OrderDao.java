@@ -11,13 +11,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class OrderDao {
+public class OrderDao implements IOrderDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private UserDao userDao;
 
+    @Override
     public List<OrderInfo> getAllOrders() {
         String sql = "select order_user.id, order_user.users_id, order_user.first_name, order_user.second_name, order_user.start_date, order_user.end_date, order_user.status, cars_info.car_id, cars_info.brand, cars_info.model, cars_info.year_made from \n" +
                 "(select o.id, o.users_id, u.first_name, u.second_name, o.cars_id, o.start_date, o.end_date, o.status from orders o inner join users u on o.users_id=u.id) as order_user inner join \n" +
@@ -26,6 +27,7 @@ public class OrderDao {
         return jdbcTemplate.query(sql, new OrderInfoMapper());
     }
 
+    @Override
     public OrderInfo getOrderById(long id) {
         String sql = "select order_user.id, order_user.users_id, order_user.first_name, order_user.second_name, order_user.start_date, order_user.end_date, order_user.status, cars_info.car_id, cars_info.brand, cars_info.model, cars_info.year_made from \n" +
                 "(select o.id, o.users_id, u.first_name, u.second_name, o.cars_id, o.start_date, o.end_date, o.status from orders o inner join users u on o.users_id=u.id) as order_user inner join " +
@@ -34,6 +36,7 @@ public class OrderDao {
         return jdbcTemplate.queryForObject(sql, new OrderInfoMapper());
     }
 
+    @Override
     public List<OrderInfo> getOrdersByUserName(String userName) {
         String sql = "select order_user.id, order_user.users_id, order_user.first_name, order_user.second_name, order_user.start_date, order_user.end_date, order_user.status, cars_info.car_id, cars_info.brand, cars_info.model, cars_info.year_made from \n" +
                 "(select o.id, o.users_id, u.first_name, u.second_name, o.cars_id, o.start_date, o.end_date, o.status from orders o inner join users u on o.users_id=u.id where u.user_name = ?) as order_user inner join " +
@@ -42,6 +45,7 @@ public class OrderDao {
         return jdbcTemplate.query(sql, new OrderInfoMapper(), userName);
     }
 
+    @Override
     public int createOrder(Order order) {
         String sql = "insert into orders (start_date, end_date, users_id, cars_id, price_per_day, total_price)" +
                 " values (?, ?, ?, ?, ?, ?)";
