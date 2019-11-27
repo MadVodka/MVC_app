@@ -9,28 +9,32 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CarDao{
+public class CarDao implements ICarDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Override
     public List<Car> getAllCars() {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id";
         return jdbcTemplate.query(sql, new CarMapper());
     }
 
+    @Override
     public Car getCarById(long id) {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where c.id = ?";
         return jdbcTemplate.queryForObject(sql, new CarMapper(), id);
     }
 
+    @Override
     public List<Car> getCarsByPage(int pageNumber, int carsPerPage) {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id limit ?, ?";
         return jdbcTemplate.query(sql, new CarMapper(), pageNumber, carsPerPage);
     }
 
+    @Override
     public List<Car> getCarsBySearch(String text, String searchByParam) {
         String textPattern = "%" + text + "%";
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
@@ -38,6 +42,7 @@ public class CarDao{
         return jdbcTemplate.query(sql, new CarMapper(), textPattern);
     }
 
+    @Override
     public int getNumberOfCars() {
         String sql = "select count(*) from cars";
         return jdbcTemplate.queryForObject(sql, Integer.class);
