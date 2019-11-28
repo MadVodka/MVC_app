@@ -2,11 +2,25 @@ package ivan.vatlin.dto;
 
 import ivan.vatlin.enums.CarStatus;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "cars")
 public class Car {
+    @Id
+    @Column(name = "id")
     private long id;
+
+    @ManyToOne
     private CarSpecification carSpecification;
+
+    @Column(name = "price_per_day")
     private double pricePerDay;
+
+    @Column(name = "reg_number")
     private String registrationNumber;
+
+    @Column(name = "status")
     private CarStatus carStatus;
 
     public long getId() {
