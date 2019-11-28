@@ -3,14 +3,35 @@ package ivan.vatlin.dto;
 import ivan.vatlin.enums.UserRole;
 import ivan.vatlin.enums.UserStatus;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @Column(name = "id")
     private long id;
+
+    @Column(name = "user_name")
     private String userName;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "second_name")
     private String secondName;
+
+    @Column
     private String password;
     private String matchingPassword;
+
+    @Column(name = "role")
     private UserRole userRole = UserRole.USER;
+
+    @Column(name = "status")
     private UserStatus userStatus = UserStatus.ACTIVE; // by default a new user is active
 
     public long getId() {
