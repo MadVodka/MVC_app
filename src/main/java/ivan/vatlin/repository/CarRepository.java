@@ -1,4 +1,4 @@
-package ivan.vatlin.dao;
+package ivan.vatlin.repository;
 
 import ivan.vatlin.dto.Car;
 import org.springframework.data.repository.PagingAndSortingRepository;
