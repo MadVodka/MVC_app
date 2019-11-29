@@ -5,9 +5,9 @@ import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
-import ivan.vatlin.services.CarService;
-import ivan.vatlin.services.OrderService;
-import ivan.vatlin.services.UserService;
+import ivan.vatlin.services.CarBaseService;
+import ivan.vatlin.services.OrderBaseService;
+import ivan.vatlin.services.UserBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,20 +21,20 @@ import java.util.List;
 @Controller
 public class OrderController {
     @Autowired
-    private OrderService orderService;
+    private OrderBaseService orderBaseService;
 
     @Autowired
-    private CarService carService;
+    private CarBaseService carBaseService;
 
     @Autowired
-    private UserService userService;
+    private UserBaseService userBaseService;
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
 
     @GetMapping("/order")
     public ModelAndView showOrderInfo(@RequestParam Long id) {
-        OrderInfo orderById = orderService.getOrderById(id);
+        OrderInfo orderById = orderBaseService.getOrderById(id);
         ModelAndView modelAndView = new ModelAndView("order");
         modelAndView.addObject("order", orderById);
         return modelAndView;
@@ -42,7 +42,7 @@ public class OrderController {
 
     @GetMapping("/add_order")
     public ModelAndView showAddOrderPage() {
-        List<Car> allCars = carService.getAllCars();
+        List<Car> allCars = carBaseService.getAllCars();
         ModelAndView modelAndView = new ModelAndView("add_order");
         modelAndView.addObject("cars", allCars);
         modelAndView.addObject("order", new Order());
@@ -52,10 +52,10 @@ public class OrderController {
     @PostMapping("/add_order/process")
     public String processNewOrder(@ModelAttribute Order order) {
         String userName = authenticationFacade.getAuthentication().getName();
-        User userByUserName = userService.getUserByUserName(userName);
+        User userByUserName = userBaseService.getUserByUserName(userName);
 
         order.setUserId(userByUserName.getId());
-        orderService.createOrder(order);
+        orderBaseService.createOrder(order);
 
         return "redirect:/cabinet";
     }
