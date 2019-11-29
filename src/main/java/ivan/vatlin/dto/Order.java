@@ -1,12 +1,32 @@
 package ivan.vatlin.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
     private long id;
+
+    @Column(name = "cars_id")
     private long carId;
+
+    @Column(name = "start_date")
     private String startDate;
+
+    @Column(name = "end_date")
     private String endDate;
+
+    @Column(name = "users_id")
     private long userId;
+
+    @Column(name = "price_per_day")
     private double pricePerDay;
+
+    @Column(name = "total_price")
     private double totalPrice;
 
     public long getId() {

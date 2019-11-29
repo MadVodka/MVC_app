@@ -1,9 +1,23 @@
 package ivan.vatlin.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "cars_specification")
 public class CarSpecification {
+    @Id
     private long id;
+
+    @Column
     private String brand;
+
+    @Column
     private String model;
+
+    @Column(name = "year_made")
     private int yearMade;
 
     public long getId() {

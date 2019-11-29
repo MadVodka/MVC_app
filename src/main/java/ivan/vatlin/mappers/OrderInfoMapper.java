@@ -1,8 +1,6 @@
 package ivan.vatlin.mappers;
 
-import ivan.vatlin.dto.CarInfo;
-import ivan.vatlin.dto.OrderInfo;
-import ivan.vatlin.dto.User;
+import ivan.vatlin.dto.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -18,17 +16,20 @@ public class OrderInfoMapper implements RowMapper<OrderInfo> {
                 .setFirstName(rs.getString("first_name"))
                 .setSecondName(rs.getString("second_name"));
 
-        CarInfo carInfo = new CarInfo();
-        carInfo.setCarId(rs.getLong("car_id"))
-                .setBrand(rs.getString("brand"))
+        CarSpecification carSpecification = new CarSpecification();
+        carSpecification.setBrand(rs.getString("brand"))
                 .setModel(rs.getString("model"))
-                .setYear(rs.getString("year_made"));
+                .setYearMade(rs.getInt("year_made"));
+
+        Car car = new Car();
+        car.setId(rs.getLong("car_id"))
+                .setCarSpecification(carSpecification);
 
         orderInfo.setId(rs.getLong("id"))
                 .setUser(user)
                 .setStartDate(LocalDate.parse(rs.getString("start_date")))
                 .setEndDate(LocalDate.parse(rs.getString("end_date")))
-                .setCarInfo(carInfo)
+                .setCar(car)
                 .setStatus(rs.getString("status"));
 
         return orderInfo;

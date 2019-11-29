@@ -52,7 +52,7 @@
                                 <c:out value="${order.id}" />
                             </td>
                             <td>
-                                <c:out value="${order.carInfo.brand} ${order.carInfo.model} ${order.carInfo.year}" />
+                                <c:out value="${order.car.carSpecification.brand} ${order.car.carSpecification.model} ${order.car.carSpecification.yearMade}" />
                             </td>
                             <td>
                                 <c:out value="${order.user.firstName} ${order.user.secondName}" />
