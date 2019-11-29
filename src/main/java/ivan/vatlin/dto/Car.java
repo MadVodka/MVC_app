@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Table(name = "cars")
 public class Car {
     @Id
-    @Column(name = "id")
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "cars_spec_id")
     private CarSpecification carSpecification;
 
     @Column(name = "price_per_day")

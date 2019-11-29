@@ -26,9 +26,9 @@
                 </div>
                 <div class="info-block">
                     <span class="description-title">Информация о автомобиле:</span>
-                    <span class="description-data">ID:${order.carInfo.carId} ${order.carInfo.brand}
-                        ${order.carInfo.model}
-                        ${order.carInfo.year}</span>
+                    <span class="description-data">ID:${order.car.id} ${order.car.carSpecification.brand}
+                        ${order.car.carSpecification.model}
+                        ${order.car.carSpecification.yearMade}</span>
                 </div>
                 <div class="info-block">
                     <span class="description-title">Информация о клиенте:</span>

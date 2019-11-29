@@ -1,13 +1,29 @@
 package ivan.vatlin.dto;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "orders")
 public class OrderInfo {
+    @Id
     private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "users_id")
     private User user;
-    private CarInfo carInfo;
+
+    @ManyToOne
+    @JoinColumn(name = "cars_id")
+    private Car car;
+
+    @Column(name = "start_date")
     private LocalDate startDate;
+
+    @Column(name = "end_date")
     private LocalDate endDate;
+
+    @Column
     private String status;
 
     public long getId() {
@@ -28,12 +44,12 @@ public class OrderInfo {
         return this;
     }
 
-    public CarInfo getCarInfo() {
-        return carInfo;
+    public Car getCar() {
+        return car;
     }
 
-    public OrderInfo setCarInfo(CarInfo carInfo) {
-        this.carInfo = carInfo;
+    public OrderInfo setCar(Car car) {
+        this.car = car;
         return this;
     }
 
