@@ -1,13 +1,15 @@
 package ivan.vatlin.services;
 
 import ivan.vatlin.dto.User;
-import ivan.vatlin.repository.UserRepository;
+import ivan.vatlin.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 
+@Service()
 public class UserRentService implements UserService {
     @Autowired
     private UserRepository userRepository;
