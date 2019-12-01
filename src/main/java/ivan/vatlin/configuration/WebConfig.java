@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-@EnableJpaRepositories(basePackages = "ivan.vatlin.repository")
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"ivan.vatlin.controllers", "ivan.vatlin.services", "ivan.vatlin.dao"})
