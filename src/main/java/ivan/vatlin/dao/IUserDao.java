@@ -12,6 +12,8 @@ public interface IUserDao {
 
     User getUserByUserName(String userName);
 
+    long getUserIdByUserName(String userName);
+
     List<User> getUsersByRole(UserRole userRole);
 
     List<User> getUsersBySearch(String text, String searchByParam);

@@ -3,9 +3,7 @@ package ivan.vatlin.controllers;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
-import ivan.vatlin.services.CarBaseService;
-import ivan.vatlin.services.OrderBaseService;
-import ivan.vatlin.services.UserBaseService;
+import ivan.vatlin.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +21,15 @@ import java.util.Optional;
 public class RestApiController {
     @Autowired
     @Qualifier("userJpa")
-    private UserBaseService userService;
+    private UserService userService;
 
     @Autowired
     @Qualifier("carJpa")
-    private CarBaseService carService;
+    private CarService carService;
 
     @Autowired
     @Qualifier("orderJpa")
-    private OrderBaseService orderService;
+    private OrderService orderService;
 
     @GetMapping({"/cars", "/cars/{pageNumber}"})
     public Map<String, Object> showCarsByPage(@PathVariable Optional<Integer> pageNumber) {

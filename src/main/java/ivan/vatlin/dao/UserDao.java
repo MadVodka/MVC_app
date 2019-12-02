@@ -4,12 +4,14 @@ import ivan.vatlin.dto.User;
 import ivan.vatlin.enums.UserRole;
 import ivan.vatlin.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Lazy
 public class UserDao implements IUserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;

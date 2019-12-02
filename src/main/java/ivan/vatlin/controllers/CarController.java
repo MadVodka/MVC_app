@@ -1,7 +1,7 @@
 package ivan.vatlin.controllers;
 
 import ivan.vatlin.dto.Car;
-import ivan.vatlin.services.CarBaseService;
+import ivan.vatlin.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class CarController {
     @Autowired
     @Qualifier("carJpa")
-    private CarBaseService carService;
+    private CarService carService;
 
     @GetMapping
     public ModelAndView showCarPage(@RequestParam Long id) {

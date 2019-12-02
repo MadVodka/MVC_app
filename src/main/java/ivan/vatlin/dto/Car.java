@@ -21,6 +21,7 @@ public class Car {
     private String registrationNumber;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private CarStatus carStatus;
 
     public long getId() {

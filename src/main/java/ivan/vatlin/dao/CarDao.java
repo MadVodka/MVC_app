@@ -3,12 +3,14 @@ package ivan.vatlin.dao;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.mappers.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Lazy
 public class CarDao implements ICarDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;

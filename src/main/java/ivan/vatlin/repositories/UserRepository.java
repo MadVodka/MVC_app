@@ -1,6 +1,7 @@
 package ivan.vatlin.repositories;
 
 import ivan.vatlin.dto.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+    @Query("select u from User u")
     List<User> findAll();
 
     User findByUserName(String userName);
