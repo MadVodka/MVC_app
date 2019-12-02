@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
-@Service()
+@Service("userJpa")
 public class UserRentService implements UserService {
     @Autowired
     private UserRepository userRepository;

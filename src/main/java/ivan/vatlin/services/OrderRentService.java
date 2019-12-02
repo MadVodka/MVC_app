@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("orderJpa")
 public class OrderRentService implements OrderService {
     @Autowired
     private OrderRepository orderRepository;

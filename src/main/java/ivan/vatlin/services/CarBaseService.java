@@ -39,7 +39,7 @@ public class CarBaseService implements CarService{
     }
 
     @Override
-    public int getNumberOfCars() {
+    public long getNumberOfCars() {
         return carDao.getNumberOfCars();
     }
 }

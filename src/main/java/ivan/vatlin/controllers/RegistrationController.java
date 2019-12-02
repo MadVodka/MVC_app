@@ -3,6 +3,7 @@ package ivan.vatlin.controllers;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.services.UserBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,8 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserBaseService userBaseService;
+    @Qualifier("userJpa")
+    private UserBaseService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,7 +34,7 @@ public class RegistrationController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        int result = userBaseService.registerUser(user);
+        long result = userService.registerUser(user);
         if (result >= 0) {
             return "redirect:login";
         } else {
@@ -43,6 +45,6 @@ public class RegistrationController {
     @GetMapping(value = "/check_username", produces = "application/json")
     public @ResponseBody
     Map<String, Boolean> checkUserExist(@RequestParam("username") String userName) {
-        return Collections.singletonMap("result", userBaseService.userNameExist(userName));
+        return Collections.singletonMap("result", userService.userNameExist(userName));
     }
 }

@@ -8,6 +8,7 @@ import ivan.vatlin.services.CarService;
 import ivan.vatlin.services.OrderService;
 import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,12 +24,15 @@ import java.util.Optional;
 @RequestMapping("/cabinet")
 public class CabinetController {
     @Autowired
+    @Qualifier("userJpa")
     private UserService userService;
 
     @Autowired
+    @Qualifier("carJpa")
     private CarService carService;
 
     @Autowired
+    @Qualifier("orderJpa")
     private OrderService orderService;
 
     @Autowired
@@ -52,7 +56,7 @@ public class CabinetController {
             currentPage = 1;
         }
 
-        int numberOfUsers = userService.getNumberOfUsers();
+        long numberOfUsers = userService.getNumberOfUsers();
         int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
 
         ModelAndView modelAndView = new ModelAndView("all_users");
@@ -99,7 +103,7 @@ public class CabinetController {
             currentPage = 1;
         }
 
-        int numberOfCars = carService.getNumberOfCars();
+        long numberOfCars = carService.getNumberOfCars();
         int numberOfPages = (int) Math.ceil(numberOfCars * 1.0 / carsPerPage);
 
         ModelAndView modelAndView = new ModelAndView("all_cars");
