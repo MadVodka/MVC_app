@@ -1,8 +1,10 @@
 package ivan.vatlin.services;
 
 import ivan.vatlin.dto.User;
+import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +51,10 @@ public class UserRentService implements UserService {
     }
 
     @Override
-    public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
-        return userRepository.findAll(PageRequest.of(pageNumber, usersPerPage)).getContent();
+    public PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage) {
+        pageNumber--;
+        Page<User> userPage = userRepository.findAll(PageRequest.of(pageNumber, usersPerPage));
+        return new PageInfo<>(userPage.getContent(), userPage.getTotalPages());
     }
 
     @Override

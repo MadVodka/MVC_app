@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
-    @Query("select u from User u")
+//    @Query("select u from User u")
     List<User> findAll();
 
     User findByUserName(String userName);

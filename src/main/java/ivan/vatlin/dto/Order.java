@@ -74,15 +74,6 @@ public class Order {
         return this;
     }
 
-//    public OrderStatus getOrderStatus() {
-//        return orderStatus;
-//    }
-//
-//    public Order setOrderStatus(OrderStatus orderStatus) {
-//        this.orderStatus = orderStatus;
-//        return this;
-//    }
-
     public double getPricePerDay() {
         return pricePerDay;
     }

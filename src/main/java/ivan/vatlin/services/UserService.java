@@ -1,6 +1,7 @@
 package ivan.vatlin.services;
 
 import ivan.vatlin.dto.User;
+import ivan.vatlin.pagination.PageInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
 
     List<User> getUsersBySearch(String text, String searchBy);
 
-    List<User> getUsersByPage(int pageNumber, int usersPerPage);
+    PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage);
 
     long getNumberOfUsers();
 

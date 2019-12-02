@@ -1,6 +1,7 @@
 package ivan.vatlin.services;
 
 import ivan.vatlin.dto.Car;
+import ivan.vatlin.pagination.PageInfo;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface CarService {
 
     List<Car> getCarsBySearch(String text, String searchByParam);
 
-    List<Car> getCarsByPage(int pageNumber, int carsPerPage);
+    PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage);
 
     long getNumberOfCars();
 }

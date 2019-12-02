@@ -4,10 +4,10 @@ import ivan.vatlin.dao.OrderDao;
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,7 +34,7 @@ public class OrderBaseService implements OrderService {
         try {
             return orderDao.getOrdersByUserName(userName);
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            return Collections.emptyList();
         }
     }
 

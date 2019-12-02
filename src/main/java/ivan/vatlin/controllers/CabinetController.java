@@ -4,6 +4,7 @@ import ivan.vatlin.components.AuthenticationFacade;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
+import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.services.CarService;
 import ivan.vatlin.services.OrderService;
 import ivan.vatlin.services.UserService;
@@ -47,23 +48,20 @@ public class CabinetController {
     public ModelAndView showUsersByPage(@PathVariable Optional<Integer> pageNumber, HttpServletRequest request) {
         int usersPerPage = 3;
         int currentPage;
-        List<User> usersByPage;
+        PageInfo<User> userPageInfo;
         if (pageNumber.isPresent()) {
-            usersByPage = userService.getUsersByPage(pageNumber.get(), usersPerPage);
+            userPageInfo = userService.getUsersByPage(pageNumber.get(), usersPerPage);
             currentPage = pageNumber.get();
         } else {
-            usersByPage = userService.getUsersByPage(1, usersPerPage);
+            userPageInfo = userService.getUsersByPage(1, usersPerPage);
             currentPage = 1;
         }
 
-        long numberOfUsers = userService.getNumberOfUsers();
-        int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
-
         ModelAndView modelAndView = new ModelAndView("all_users");
-        modelAndView.addObject("userList", usersByPage);
+        modelAndView.addObject("userList", userPageInfo.getContent());
         modelAndView.addObject("currentPage", currentPage);
         modelAndView.addObject("sectionUrl", request.getContextPath() + "/cabinet/users/");
-        modelAndView.addObject("numberOfPages", numberOfPages);
+        modelAndView.addObject("numberOfPages", userPageInfo.getNumberOfPages());
         return modelAndView;
     }
 
@@ -93,24 +91,21 @@ public class CabinetController {
     @GetMapping({"/cars", "/cars/{pageNumber}"})
     public ModelAndView showCarsByPage(@PathVariable Optional<Integer> pageNumber, HttpServletRequest request) {
         int carsPerPage = 3;
-        List<Car> carsByPage;
+        PageInfo<Car> carPageInfo;
         int currentPage;
         if (pageNumber.isPresent()) {
-            carsByPage = carService.getCarsByPage(pageNumber.get(), carsPerPage);
+            carPageInfo = carService.getCarPageInfo(pageNumber.get(), carsPerPage);
             currentPage = pageNumber.get();
         } else {
-            carsByPage = carService.getCarsByPage(1, carsPerPage);
+            carPageInfo = carService.getCarPageInfo(1, carsPerPage);
             currentPage = 1;
         }
 
-        long numberOfCars = carService.getNumberOfCars();
-        int numberOfPages = (int) Math.ceil(numberOfCars * 1.0 / carsPerPage);
-
         ModelAndView modelAndView = new ModelAndView("all_cars");
-        modelAndView.addObject("carList", carsByPage);
+        modelAndView.addObject("carList", carPageInfo.getContent());
         modelAndView.addObject("currentPage", currentPage);
         modelAndView.addObject("sectionUrl", request.getContextPath() + "/cabinet/cars/");
-        modelAndView.addObject("numberOfPages", numberOfPages);
+        modelAndView.addObject("numberOfPages", carPageInfo.getNumberOfPages());
         return modelAndView;
     }
 

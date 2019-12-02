@@ -1,8 +1,10 @@
 package ivan.vatlin.services;
 
 import ivan.vatlin.dto.Car;
+import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +41,10 @@ public class CarRentService implements CarService {
     }
 
     @Override
-    public List<Car> getCarsByPage(int pageNumber, int carsPerPage) {
-        return carRepository.findAll(PageRequest.of(pageNumber, carsPerPage)).getContent();
+    public PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage) {
+        pageNumber--;
+        Page<Car> carPage = carRepository.findAll(PageRequest.of(pageNumber, carsPerPage));
+        return new PageInfo<>(carPage.getContent(), carPage.getTotalPages());
     }
 
     @Override

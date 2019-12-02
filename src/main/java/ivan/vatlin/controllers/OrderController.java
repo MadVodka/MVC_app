@@ -67,8 +67,8 @@ public class OrderController {
     public String processNewOrder(@ModelAttribute Order order) {
         String userName = authenticationFacade.getAuthentication().getName();
         User userByUserName = userService.getUserByUserName(userName);
-
         order.setUserId(userByUserName.getId());
+
         orderService.createOrder(order);
 
         return "redirect:/cabinet";

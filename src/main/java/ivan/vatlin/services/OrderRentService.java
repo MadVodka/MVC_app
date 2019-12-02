@@ -30,13 +30,15 @@ public class OrderRentService implements OrderService {
 
     @Override
     public long createOrder(Order order) {
-//        Order saveOrder = orderRepository.save(order);
-//        return saveOrder;
-        return 0;
+        Order saveOrder = orderRepository.save(order);
+        if (saveOrder == null) {
+            return -1;
+        }
+        return 1;
     }
 
     @Override
     public OrderInfo getUsersOrder(String userName, long orderId) {
-        return null;
+        return orderRepository.findByIdAndUser_UserName(orderId, userName);
     }
 }

@@ -2,8 +2,8 @@ package ivan.vatlin.services;
 
 import ivan.vatlin.dao.CarDao;
 import ivan.vatlin.dto.Car;
+import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +34,13 @@ public class CarBaseService implements CarService {
     }
 
     @Override
-    public List<Car> getCarsByPage(int pageNumber, int carsPerPage) {
+    public PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage) {
         int startPosition = (pageNumber - 1) * carsPerPage;
-        return carDao.getCarsByPage(startPosition, carsPerPage);
+        List<Car> carsByPage = carDao.getCarsByPage(startPosition, carsPerPage);
+
+        long numberOfUsers = getNumberOfCars();
+        int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / carsPerPage);
+        return new PageInfo<>(carsByPage, numberOfPages);
     }
 
     @Override

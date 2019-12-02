@@ -2,8 +2,8 @@ package ivan.vatlin.services;
 
 import ivan.vatlin.dao.UserDao;
 import ivan.vatlin.dto.User;
+import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,9 +49,14 @@ public class UserBaseService implements UserService {
     }
 
     @Override
-    public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
+    public PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage) {
         int startPosition = (pageNumber - 1) * usersPerPage;
-        return userDao.getUsersByPage(startPosition, usersPerPage);
+        List<User> usersByPage = userDao.getUsersByPage(startPosition, usersPerPage);
+
+        long numberOfUsers = getNumberOfUsers();
+        int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
+
+        return new PageInfo<>(usersByPage, numberOfPages);
     }
 
     @Override

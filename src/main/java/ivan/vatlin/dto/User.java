@@ -24,9 +24,11 @@ public class User {
     @Column
     private String password;
 
+    @Transient
     private String matchingPassword;
 
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.USER;
 
     @Column(name = "status")

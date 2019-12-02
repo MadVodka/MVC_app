@@ -3,6 +3,7 @@ package ivan.vatlin.controllers;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
+import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,22 +35,19 @@ public class RestApiController {
     @GetMapping({"/cars", "/cars/{pageNumber}"})
     public Map<String, Object> showCarsByPage(@PathVariable Optional<Integer> pageNumber) {
         int carsPerPage = 3;
-        List<Car> carsByPage;
+        PageInfo<Car> carPageInfo;
         int currentPage = 1;
         if (pageNumber.isPresent()) {
-            carsByPage = carService.getCarsByPage(pageNumber.get(), carsPerPage);
+            carPageInfo = carService.getCarPageInfo(pageNumber.get(), carsPerPage);
             currentPage = pageNumber.get();
         } else {
-            carsByPage = carService.getCarsByPage(1, carsPerPage);
+            carPageInfo = carService.getCarPageInfo(1, carsPerPage);
         }
-
-        long numberOfCars = carService.getNumberOfCars();
-        int numberOfPages = (int) Math.ceil(numberOfCars * 1.0 / carsPerPage);
 
         Map<String, Object> carsInfo = new LinkedHashMap<>();
         carsInfo.put("currentPage", currentPage);
-        carsInfo.put("numberOfPages", numberOfPages);
-        carsInfo.put("cars", carsByPage);
+        carsInfo.put("numberOfPages", carPageInfo.getNumberOfPages());
+        carsInfo.put("cars", carPageInfo.getContent());
 
         return carsInfo;
     }
@@ -57,22 +55,19 @@ public class RestApiController {
     @GetMapping({"/users", "/users/{pageNumber}"})
     public Map<String, Object> showUsersByPage(@PathVariable Optional<Integer> pageNumber) {
         int usersPerPage = 3;
-        List<User> usersByPage;
+        PageInfo<User> userPageInfo;
         int currentPage = 1;
         if (pageNumber.isPresent()) {
-            usersByPage = userService.getUsersByPage(pageNumber.get(), usersPerPage);
+            userPageInfo = userService.getUsersByPage(pageNumber.get(), usersPerPage);
             currentPage = pageNumber.get();
         } else {
-            usersByPage = userService.getUsersByPage(1, usersPerPage);
+            userPageInfo = userService.getUsersByPage(1, usersPerPage);
         }
-
-        long numberOfUsers = userService.getNumberOfUsers();
-        int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
 
         Map<String, Object> usersInfo = new LinkedHashMap<>();
         usersInfo.put("currentPage", currentPage);
-        usersInfo.put("numberOfPages", numberOfPages);
-        usersInfo.put("users", usersByPage);
+        usersInfo.put("numberOfPages", userPageInfo.getNumberOfPages());
+        usersInfo.put("users", userPageInfo.getContent());
 
         return usersInfo;
     }
