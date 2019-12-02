@@ -3,10 +3,9 @@ package ivan.vatlin.controllers;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
-import ivan.vatlin.services.CarBaseService;
-import ivan.vatlin.services.OrderBaseService;
-import ivan.vatlin.services.UserBaseService;
+import ivan.vatlin.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +20,16 @@ import java.util.Optional;
 @RequestMapping("rest")
 public class RestApiController {
     @Autowired
-    private UserBaseService userBaseService;
+    @Qualifier("userJpa")
+    private UserService userService;
 
     @Autowired
-    private CarBaseService carBaseService;
+    @Qualifier("carJpa")
+    private CarService carService;
 
     @Autowired
-    private OrderBaseService orderBaseService;
+    @Qualifier("orderJpa")
+    private OrderService orderService;
 
     @GetMapping({"/cars", "/cars/{pageNumber}"})
     public Map<String, Object> showCarsByPage(@PathVariable Optional<Integer> pageNumber) {
@@ -35,13 +37,13 @@ public class RestApiController {
         List<Car> carsByPage;
         int currentPage = 1;
         if (pageNumber.isPresent()) {
-            carsByPage = carBaseService.getCarsByPage(pageNumber.get(), carsPerPage);
+            carsByPage = carService.getCarsByPage(pageNumber.get(), carsPerPage);
             currentPage = pageNumber.get();
         } else {
-            carsByPage = carBaseService.getCarsByPage(1, carsPerPage);
+            carsByPage = carService.getCarsByPage(1, carsPerPage);
         }
 
-        int numberOfCars = carBaseService.getNumberOfCars();
+        long numberOfCars = carService.getNumberOfCars();
         int numberOfPages = (int) Math.ceil(numberOfCars * 1.0 / carsPerPage);
 
         Map<String, Object> carsInfo = new LinkedHashMap<>();
@@ -58,13 +60,13 @@ public class RestApiController {
         List<User> usersByPage;
         int currentPage = 1;
         if (pageNumber.isPresent()) {
-            usersByPage = userBaseService.getUsersByPage(pageNumber.get(), usersPerPage);
+            usersByPage = userService.getUsersByPage(pageNumber.get(), usersPerPage);
             currentPage = pageNumber.get();
         } else {
-            usersByPage = userBaseService.getUsersByPage(1, usersPerPage);
+            usersByPage = userService.getUsersByPage(1, usersPerPage);
         }
 
-        int numberOfUsers = userBaseService.getNumberOfUsers();
+        long numberOfUsers = userService.getNumberOfUsers();
         int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
 
         Map<String, Object> usersInfo = new LinkedHashMap<>();
@@ -77,7 +79,7 @@ public class RestApiController {
 
     @GetMapping("/orders")
     public Map<String, Object> showOrders() {
-        List<OrderInfo> orderInfoList = orderBaseService.getAllOrders();
+        List<OrderInfo> orderInfoList = orderService.getAllOrders();
 
         Map<String, Object> ordersInfo = new LinkedHashMap<>();
         ordersInfo.put("orders", orderInfoList);

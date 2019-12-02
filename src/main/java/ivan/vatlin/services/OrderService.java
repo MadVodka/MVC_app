@@ -13,4 +13,6 @@ public interface OrderService {
     List<OrderInfo> getOrdersByUserName(String userName);
 
     long createOrder(Order order);
+
+    OrderInfo getUsersOrder(String userName, long orderId);
 }

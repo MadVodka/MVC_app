@@ -3,13 +3,14 @@ package ivan.vatlin.services;
 import ivan.vatlin.dao.CarDao;
 import ivan.vatlin.dto.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CarBaseService implements CarService{
+public class CarBaseService implements CarService {
     @Autowired
     private CarDao carDao;
 
@@ -39,7 +40,7 @@ public class CarBaseService implements CarService{
     }
 
     @Override
-    public int getNumberOfCars() {
+    public long getNumberOfCars() {
         return carDao.getNumberOfCars();
     }
 }

@@ -3,10 +3,7 @@ package ivan.vatlin.dto;
 import ivan.vatlin.enums.UserRole;
 import ivan.vatlin.enums.UserStatus;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -26,12 +23,14 @@ public class User {
 
     @Column
     private String password;
+
     private String matchingPassword;
 
     @Column(name = "role")
     private UserRole userRole = UserRole.USER;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private UserStatus userStatus = UserStatus.ACTIVE; // by default a new user is active
 
     public long getId() {

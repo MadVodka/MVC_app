@@ -4,11 +4,11 @@ import ivan.vatlin.components.AuthenticationFacade;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.dto.User;
-import ivan.vatlin.services.CarBaseService;
-import ivan.vatlin.services.OrderBaseService;
-import ivan.vatlin.services.UserBaseService;
+import ivan.vatlin.services.CarService;
+import ivan.vatlin.services.OrderService;
+import ivan.vatlin.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +24,16 @@ import java.util.Optional;
 @RequestMapping("/cabinet")
 public class CabinetController {
     @Autowired
-    private UserBaseService userBaseService;
+    @Qualifier("userJpa")
+    private UserService userService;
 
     @Autowired
-    private CarBaseService carBaseService;
+    @Qualifier("carJpa")
+    private CarService carService;
 
     @Autowired
-    private OrderBaseService orderBaseService;
+    @Qualifier("orderJpa")
+    private OrderService orderService;
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
@@ -47,14 +49,14 @@ public class CabinetController {
         int currentPage;
         List<User> usersByPage;
         if (pageNumber.isPresent()) {
-            usersByPage = userBaseService.getUsersByPage(pageNumber.get(), usersPerPage);
+            usersByPage = userService.getUsersByPage(pageNumber.get(), usersPerPage);
             currentPage = pageNumber.get();
         } else {
-            usersByPage = userBaseService.getUsersByPage(1, usersPerPage);
+            usersByPage = userService.getUsersByPage(1, usersPerPage);
             currentPage = 1;
         }
 
-        int numberOfUsers = userBaseService.getNumberOfUsers();
+        long numberOfUsers = userService.getNumberOfUsers();
         int numberOfPages = (int) Math.ceil(numberOfUsers * 1.0 / usersPerPage);
 
         ModelAndView modelAndView = new ModelAndView("all_users");
@@ -67,7 +69,7 @@ public class CabinetController {
 
     @GetMapping("/users/search")
     public ModelAndView showUsersBySearch(@RequestParam String text, @RequestParam(defaultValue = "first_name") String searchBy) {
-        List<User> usersBySearch = userBaseService.getUsersBySearch(text, searchBy);
+        List<User> usersBySearch = userService.getUsersBySearch(text, searchBy);
         ModelAndView modelAndView = new ModelAndView("all_users");
         modelAndView.addObject("userList", usersBySearch);
         return modelAndView;
@@ -76,11 +78,11 @@ public class CabinetController {
     @GetMapping("/orders")
     public ModelAndView showOrders() {
         List<OrderInfo> orderInfoList = null;
-        if (hasRole("USER")) {
+        if (authenticationFacade.hasRole("USER")) {
             String name = authenticationFacade.getAuthentication().getName();
-            orderInfoList = orderBaseService.getOrdersByUserName(name);
-        } else if (hasRole("ADMIN")) {
-            orderInfoList = orderBaseService.getAllOrders();
+            orderInfoList = orderService.getOrdersByUserName(name);
+        } else if (authenticationFacade.hasRole("ADMIN")) {
+            orderInfoList = orderService.getAllOrders();
         }
 
         ModelAndView modelAndView = new ModelAndView("all_orders");
@@ -94,14 +96,14 @@ public class CabinetController {
         List<Car> carsByPage;
         int currentPage;
         if (pageNumber.isPresent()) {
-            carsByPage = carBaseService.getCarsByPage(pageNumber.get(), carsPerPage);
+            carsByPage = carService.getCarsByPage(pageNumber.get(), carsPerPage);
             currentPage = pageNumber.get();
         } else {
-            carsByPage = carBaseService.getCarsByPage(1, carsPerPage);
+            carsByPage = carService.getCarsByPage(1, carsPerPage);
             currentPage = 1;
         }
 
-        int numberOfCars = carBaseService.getNumberOfCars();
+        long numberOfCars = carService.getNumberOfCars();
         int numberOfPages = (int) Math.ceil(numberOfCars * 1.0 / carsPerPage);
 
         ModelAndView modelAndView = new ModelAndView("all_cars");
@@ -114,16 +116,9 @@ public class CabinetController {
 
     @GetMapping("/cars/search")
     public ModelAndView showCarsBySearch(@RequestParam String text, @RequestParam(defaultValue = "brand") String searchBy) {
-        List<Car> carsBySearch = carBaseService.getCarsBySearch(text, searchBy);
+        List<Car> carsBySearch = carService.getCarsBySearch(text, searchBy);
         ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carsBySearch);
         return modelAndView;
-    }
-
-    private boolean hasRole(String userRole) {
-        Collection<? extends GrantedAuthority> authorities = authenticationFacade.getAuthentication().getAuthorities();
-        return authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals("ROLE_" + userRole));
     }
 }

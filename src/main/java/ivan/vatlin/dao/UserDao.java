@@ -4,12 +4,14 @@ import ivan.vatlin.dto.User;
 import ivan.vatlin.enums.UserRole;
 import ivan.vatlin.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Lazy
 public class UserDao implements IUserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,6 +35,15 @@ public class UserDao implements IUserDao {
     }
 
     @Override
+    public long getUserIdByUserName(String userName) {
+        String sql = "select id from users where user_name = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, Long.TYPE, userName);
+        } catch (NullPointerException e) {
+            return -1;
+        }
+    }
+
     public List<User> getUsersByRole(UserRole userRole) {
         String sql = "select * from users where role = ?";
         return jdbcTemplate.query(sql, new UserMapper(), userRole.toString());

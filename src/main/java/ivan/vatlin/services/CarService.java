@@ -13,5 +13,5 @@ public interface CarService {
 
     List<Car> getCarsByPage(int pageNumber, int carsPerPage);
 
-    int getNumberOfCars();
+    long getNumberOfCars();
 }

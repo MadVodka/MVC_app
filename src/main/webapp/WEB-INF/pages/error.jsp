@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    Error occured: ${error}
+    Error occured
 </body>
 
 </html>

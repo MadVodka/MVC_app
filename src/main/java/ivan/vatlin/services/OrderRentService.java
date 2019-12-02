@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("orderJpa")
 public class OrderRentService implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
@@ -25,7 +25,7 @@ public class OrderRentService implements OrderService {
 
     @Override
     public List<OrderInfo> getOrdersByUserName(String userName) {
-        return orderRepository.findByUserNameLike(userName);
+        return orderRepository.findByUser_UserName(userName);
     }
 
     @Override
@@ -33,5 +33,10 @@ public class OrderRentService implements OrderService {
 //        Order saveOrder = orderRepository.save(order);
 //        return saveOrder;
         return 0;
+    }
+
+    @Override
+    public OrderInfo getUsersOrder(String userName, long orderId) {
+        return null;
     }
 }
