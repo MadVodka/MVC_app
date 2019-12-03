@@ -22,15 +22,15 @@ import java.util.List;
 @Controller
 public class OrderController {
     @Autowired
-    @Qualifier("orderJpa")
+//    @Qualifier("orderJpa")
     private OrderService orderService;
 
     @Autowired
-    @Qualifier("carJpa")
+//    @Qualifier("carJpa")
     private CarService carService;
 
     @Autowired
-    @Qualifier("userJpa")
+//    @Qualifier("userJpa")
     private UserService userService;
 
     @Autowired

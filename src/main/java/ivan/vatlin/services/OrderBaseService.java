@@ -1,9 +1,11 @@
 package ivan.vatlin.services;
 
+import ivan.vatlin.dao.IOrderDao;
 import ivan.vatlin.dao.OrderDao;
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Primary
 public class OrderBaseService implements OrderService {
     @Autowired
-    private OrderDao orderDao;
+    private IOrderDao orderDao;
 
     @Override
     public List<OrderInfo> getAllOrders() {

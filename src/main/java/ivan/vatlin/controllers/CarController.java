@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/car")
 public class CarController {
     @Autowired
-    @Qualifier("carJpa")
+//    @Qualifier("carJpa")
     private CarService carService;
 
     @GetMapping

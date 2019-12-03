@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    @Qualifier("userJpa")
+//    @Qualifier("userJpa")
     private UserService userService;
 
     @Autowired

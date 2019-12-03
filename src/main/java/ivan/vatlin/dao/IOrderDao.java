@@ -13,4 +13,6 @@ public interface IOrderDao {
     List<OrderInfo> getOrdersByUserName(String userName);
 
     int createOrder(Order order);
+
+    OrderInfo getUsersOrder(String userName, long orderId);
 }

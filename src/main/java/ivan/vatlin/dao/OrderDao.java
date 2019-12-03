@@ -12,13 +12,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Lazy
 public class OrderDao implements IOrderDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private UserDao userDao;
+    private IUserDao userDao;
 
     @Override
     public List<OrderInfo> getAllOrders() {
@@ -55,6 +54,7 @@ public class OrderDao implements IOrderDao {
                 order.getCarId(), 0, 0);
     }
 
+    @Override
     public OrderInfo getUsersOrder(String userName, long orderId) {
             String sql = "SELECT \n" +
                     "    order_user.id,\n" +

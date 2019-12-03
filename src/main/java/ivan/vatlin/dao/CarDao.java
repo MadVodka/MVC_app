@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Lazy
 public class CarDao implements ICarDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;

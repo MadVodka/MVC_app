@@ -1,9 +1,10 @@
 package ivan.vatlin.services;
 
-import ivan.vatlin.dao.UserDao;
+import ivan.vatlin.dao.IUserDao;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Primary
 public class UserBaseService implements UserService {
     @Autowired
-    private UserDao userDao;
+    private IUserDao userDao;
 
     @Override
     public List<User> getAllUsers() {

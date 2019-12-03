@@ -1,18 +1,20 @@
 package ivan.vatlin.services;
 
-import ivan.vatlin.dao.CarDao;
+import ivan.vatlin.dao.ICarDao;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Primary
 public class CarBaseService implements CarService {
     @Autowired
-    private CarDao carDao;
+    private ICarDao carDao;
 
     @Override
     public List<Car> getAllCars() {
