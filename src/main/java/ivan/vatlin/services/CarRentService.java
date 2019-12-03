@@ -30,11 +30,16 @@ public class CarRentService implements CarService {
     public List<Car> getCarsBySearch(String text, String searchByParam) {
         switch (searchByParam) {
             case "brand":
-                return carRepository.findByCarSpecificationBrandLike(text);
+                return carRepository.findByCarSpecificationBrandContaining(text);
             case "model":
-                return carRepository.findByCarSpecificationModelLike(text);
+                return carRepository.findByCarSpecificationModelContaining(text);
             case "year_made":
-                return carRepository.findByCarSpecificationYearMadeLike(text);
+                try {
+                    Integer year = Integer.valueOf(text);
+                    return carRepository.findByCarSpecificationYearMadeContaining(year);
+                } catch (NumberFormatException e) {
+                    return Collections.emptyList();
+                }
             default:
                 return Collections.emptyList();
         }

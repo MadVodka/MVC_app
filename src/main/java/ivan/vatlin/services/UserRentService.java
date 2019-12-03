@@ -39,12 +39,19 @@ public class UserRentService implements UserService {
     @Override
     public List<User> getUsersBySearch(String text, String searchBy) {
         switch (searchBy) { // by ID field search should be added
+            case "id":
+                try {
+                    Long id = Long.valueOf(text);
+                    return userRepository.findByIdContaining(id);
+                } catch (NumberFormatException e) {
+                    return Collections.emptyList();
+                }
             case "user_name":
-                return userRepository.findByUserNameLike(text);
+                return userRepository.findByUserNameContaining(text);
             case "first_name":
-                return userRepository.findByFirstNameLike(text);
+                return userRepository.findByFirstNameContaining(text);
             case "second_name":
-                return userRepository.findBySecondNameLike(text);
+                return userRepository.findBySecondNameContaining(text);
             default:
                 return Collections.emptyList();
         }
