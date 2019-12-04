@@ -4,6 +4,7 @@ import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
-@Service("userJpa")
+@Service
+@ConditionalOnProperty(value = "database.api", havingValue = "jpa")
 public class UserRentService implements UserService {
     @Autowired
     private UserRepository userRepository;

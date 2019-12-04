@@ -1,11 +1,10 @@
 package ivan.vatlin.services;
 
 import ivan.vatlin.dao.IOrderDao;
-import ivan.vatlin.dao.OrderDao;
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@Primary
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
 public class OrderBaseService implements OrderService {
     @Autowired
     private IOrderDao orderDao;

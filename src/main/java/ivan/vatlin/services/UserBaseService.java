@@ -4,7 +4,7 @@ import ivan.vatlin.dao.IUserDao;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Primary
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
 public class UserBaseService implements UserService {
     @Autowired
     private IUserDao userDao;

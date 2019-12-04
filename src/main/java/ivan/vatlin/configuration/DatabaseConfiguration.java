@@ -2,6 +2,7 @@ package ivan.vatlin.configuration;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -37,6 +38,7 @@ public class DatabaseConfiguration {
     private String dialectValue;
 
     @Bean
+    @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(getDataSource());
@@ -47,6 +49,7 @@ public class DatabaseConfiguration {
     }
 
     @Bean
+    @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
     public JpaTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
@@ -72,6 +75,7 @@ public class DatabaseConfiguration {
     }
 
     @Bean
+    @ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
     public JdbcTemplate getJdbcTemplate() {
         return new JdbcTemplate(getDataSource());
     }

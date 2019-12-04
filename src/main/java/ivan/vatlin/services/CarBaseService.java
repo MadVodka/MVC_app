@@ -4,14 +4,14 @@ import ivan.vatlin.dao.ICarDao;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Primary
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
 public class CarBaseService implements CarService {
     @Autowired
     private ICarDao carDao;
