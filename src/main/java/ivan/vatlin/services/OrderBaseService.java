@@ -1,6 +1,6 @@
 package ivan.vatlin.services;
 
-import ivan.vatlin.dao.IOrderDao;
+import ivan.vatlin.dao.jdbc.IOrderDao;
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;

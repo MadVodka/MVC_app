@@ -1,6 +1,6 @@
 package ivan.vatlin.services;
 
-import ivan.vatlin.dao.ICarDao;
+import ivan.vatlin.dao.jdbc.ICarDao;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

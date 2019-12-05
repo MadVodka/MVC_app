@@ -2,7 +2,7 @@ package ivan.vatlin.services;
 
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.pagination.PageInfo;
-import ivan.vatlin.repositories.CarRepository;
+import ivan.vatlin.dao.jpa.CarJpaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
@@ -16,29 +16,29 @@ import java.util.List;
 @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
 public class CarRentService implements CarService {
     @Autowired
-    private CarRepository carRepository;
+    private CarJpaDao carJpaDao;
 
     @Override
     public List<Car> getAllCars() {
-        return carRepository.findAll();
+        return carJpaDao.findAll();
     }
 
     @Override
     public Car getCarById(long id) {
-        return carRepository.findById(id).orElse(null);
+        return carJpaDao.findById(id).orElse(null);
     }
 
     @Override
     public List<Car> getCarsBySearch(String text, String searchByParam) {
         switch (searchByParam) {
             case "brand":
-                return carRepository.findByCarSpecificationBrandContaining(text);
+                return carJpaDao.findByCarSpecificationBrandContaining(text);
             case "model":
-                return carRepository.findByCarSpecificationModelContaining(text);
+                return carJpaDao.findByCarSpecificationModelContaining(text);
             case "year_made":
                 try {
                     Integer year = Integer.valueOf(text);
-                    return carRepository.findByCarSpecificationYearMadeContaining(year);
+                    return carJpaDao.findByCarSpecificationYearMadeContaining(year);
                 } catch (NumberFormatException e) {
                     return Collections.emptyList();
                 }
@@ -50,12 +50,12 @@ public class CarRentService implements CarService {
     @Override
     public PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage) {
         pageNumber--;
-        Page<Car> carPage = carRepository.findAll(PageRequest.of(pageNumber, carsPerPage));
+        Page<Car> carPage = carJpaDao.findAll(PageRequest.of(pageNumber, carsPerPage));
         return new PageInfo<>(carPage.getContent(), carPage.getTotalPages());
     }
 
     @Override
     public long getNumberOfCars() {
-        return carRepository.count();
+        return carJpaDao.count();
     }
 }

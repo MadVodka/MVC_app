@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:db.properties")
-@EnableJpaRepositories(basePackages = "ivan.vatlin.repositories")
+@EnableJpaRepositories(basePackages = "ivan.vatlin.dao.jpa")
 public class DatabaseConfiguration {
     @Value("${mysql.driver-class-name}")
     private String driverClassName;

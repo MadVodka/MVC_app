@@ -1,4 +1,4 @@
-package ivan.vatlin.repositories;
+package ivan.vatlin.dao.jpa;
 
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
-public interface OrderRepository extends CrudRepository<OrderInfo, Long> {
+public interface OrderJpaDao extends CrudRepository<OrderInfo, Long> {
     List<OrderInfo> findAll();
 
     List<OrderInfo> findByUser_UserName(String userName);

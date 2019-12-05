@@ -1,4 +1,4 @@
-package ivan.vatlin.dao;
+package ivan.vatlin.dao.jdbc;
 
 import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;

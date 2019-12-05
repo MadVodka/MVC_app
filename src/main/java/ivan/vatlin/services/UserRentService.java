@@ -2,7 +2,7 @@ package ivan.vatlin.services;
 
 import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
-import ivan.vatlin.repositories.UserRepository;
+import ivan.vatlin.dao.jpa.UserJpaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
@@ -16,26 +16,26 @@ import java.util.List;
 @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
 public class UserRentService implements UserService {
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaDao userJpaDao;
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userJpaDao.findAll();
     }
 
     @Override
     public User getUserById(long id) {
-        return userRepository.findById(id).orElse(null);
+        return userJpaDao.findById(id).orElse(null);
     }
 
     @Override
     public User getUserByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+        return userJpaDao.findByUserName(userName);
     }
 
     @Override
     public boolean userNameExist(String userName) {
-        return userRepository.existsByUserName(userName);
+        return userJpaDao.existsByUserName(userName);
     }
 
     @Override
@@ -44,16 +44,16 @@ public class UserRentService implements UserService {
             case "id":
                 try {
                     Long id = Long.valueOf(text);
-                    return userRepository.findByIdContaining(id);
+                    return userJpaDao.findByIdContaining(id);
                 } catch (NumberFormatException e) {
                     return Collections.emptyList();
                 }
             case "user_name":
-                return userRepository.findByUserNameContaining(text);
+                return userJpaDao.findByUserNameContaining(text);
             case "first_name":
-                return userRepository.findByFirstNameContaining(text);
+                return userJpaDao.findByFirstNameContaining(text);
             case "second_name":
-                return userRepository.findBySecondNameContaining(text);
+                return userJpaDao.findBySecondNameContaining(text);
             default:
                 return Collections.emptyList();
         }
@@ -62,18 +62,18 @@ public class UserRentService implements UserService {
     @Override
     public PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage) {
         pageNumber--;
-        Page<User> userPage = userRepository.findAll(PageRequest.of(pageNumber, usersPerPage));
+        Page<User> userPage = userJpaDao.findAll(PageRequest.of(pageNumber, usersPerPage));
         return new PageInfo<>(userPage.getContent(), userPage.getTotalPages());
     }
 
     @Override
     public long getNumberOfUsers() {
-        return userRepository.count();
+        return userJpaDao.count();
     }
 
     @Override
     public long registerUser(User user) {
-        User saveUser = userRepository.save(user);
+        User saveUser = userJpaDao.save(user);
         if (saveUser == null) {
             return -1;
         }

@@ -1,4 +1,4 @@
-package ivan.vatlin.repositories;
+package ivan.vatlin.dao.jpa;
 
 import ivan.vatlin.dto.User;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface UserJpaDao extends PagingAndSortingRepository<User, Long> {
     List<User> findAll();
 
     User findByUserName(String userName);

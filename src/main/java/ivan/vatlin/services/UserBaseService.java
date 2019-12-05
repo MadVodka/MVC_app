@@ -1,6 +1,6 @@
 package ivan.vatlin.services;
 
-import ivan.vatlin.dao.IUserDao;
+import ivan.vatlin.dao.jdbc.IUserDao;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

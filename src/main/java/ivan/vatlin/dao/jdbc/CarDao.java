@@ -1,10 +1,9 @@
-package ivan.vatlin.dao;
+package ivan.vatlin.dao.jdbc;
 
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.mappers.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

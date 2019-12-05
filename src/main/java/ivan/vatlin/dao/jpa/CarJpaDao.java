@@ -1,4 +1,4 @@
-package ivan.vatlin.repositories;
+package ivan.vatlin.dao.jpa;
 
 import ivan.vatlin.dto.Car;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
-public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
+public interface CarJpaDao extends PagingAndSortingRepository<Car, Long> {
     List<Car> findAll();
 
     List<Car> findByCarSpecificationBrandContaining(String brand);
