@@ -24,9 +24,6 @@ public class User {
     @Column
     private String password;
 
-    @Transient
-    private String matchingPassword;
-
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.USER;
@@ -79,15 +76,6 @@ public class User {
         this.password = password;
         return this;
     }
-
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
-    }
-
 
     public UserRole getUserRole() {
         return userRole;

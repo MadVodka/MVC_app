@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc", matchIfMissing = true)
 public class CarBaseService implements CarService {
     @Autowired
     private ICarDao carDao;

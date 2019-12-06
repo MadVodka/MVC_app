@@ -21,15 +21,12 @@ import java.util.Optional;
 @RequestMapping("rest")
 public class RestApiController {
     @Autowired
-//    @Qualifier("userJpa")
     private UserService userService;
 
     @Autowired
-//    @Qualifier("carJpa")
     private CarService carService;
 
     @Autowired
-//    @Qualifier("orderJpa")
     private OrderService orderService;
 
     @GetMapping({"/cars", "/cars/{pageNumber}"})

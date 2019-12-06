@@ -4,6 +4,7 @@ import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.CarSpecification;
 import ivan.vatlin.enums.CarStatus;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

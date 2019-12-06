@@ -12,6 +12,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -39,9 +40,9 @@ public class DatabaseConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(getDataSource());
+        entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactoryBean.setPackagesToScan("ivan.vatlin.dto");
         entityManagerFactoryBean.setJpaProperties(getHibernateProperties());
@@ -50,9 +51,9 @@ public class DatabaseConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
-    public JpaTransactionManager transactionManager() {
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
 
         return transactionManager;
     }
@@ -76,7 +77,7 @@ public class DatabaseConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
-    public JdbcTemplate getJdbcTemplate() {
-        return new JdbcTemplate(getDataSource());
+    public JdbcTemplate getJdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }

@@ -6,8 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "cars")
+@DiscriminatorColumn
 public class Car {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ManyToOne

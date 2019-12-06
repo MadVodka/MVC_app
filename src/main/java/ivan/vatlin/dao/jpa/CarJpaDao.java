@@ -1,5 +1,6 @@
 package ivan.vatlin.dao.jpa;
 
+import ivan.vatlin.dao.jdbc.ICarDao;
 import ivan.vatlin.dto.Car;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.jpa.repository.Query;

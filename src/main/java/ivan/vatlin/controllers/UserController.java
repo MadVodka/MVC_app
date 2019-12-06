@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-//    @Qualifier("userJpa")
     private UserService userService;
 
     @GetMapping()
