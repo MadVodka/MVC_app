@@ -14,6 +14,7 @@ import java.util.List;
 
 @Repository
 @ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
+//@CacheConfig(cacheNames = "cars")
 public class CarDao implements ICarDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -36,6 +37,7 @@ public class CarDao implements ICarDao {
     };
 
     @Override
+//    @Cacheable(key = "#result?.id")
     public List<Car> getAllCars() {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id";
@@ -43,6 +45,7 @@ public class CarDao implements ICarDao {
     }
 
     @Override
+//    @Cacheable
     public Car getCarById(long id) {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id where c.id = ?";
@@ -50,6 +53,7 @@ public class CarDao implements ICarDao {
     }
 
     @Override
+//    @Cacheable(key = "#result?.id")
     public List<Car> getCarsByPage(int pageNumber, int carsPerPage) {
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
                 "from cars as c inner join cars_specification as cs on c.cars_spec_id = cs.id limit ?, ?";
@@ -57,6 +61,7 @@ public class CarDao implements ICarDao {
     }
 
     @Override
+//    @Cacheable(key = "#result?.id")
     public List<Car> getCarsBySearch(String text, String searchByParam) {
         String textPattern = "%" + text + "%";
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +

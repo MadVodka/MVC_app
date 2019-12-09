@@ -81,4 +81,19 @@ public class Car {
                 ", carStatus=" + carStatus +
                 '}' + "\n";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Car car = (Car) o;
+
+        return id == car.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 }

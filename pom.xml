@@ -43,6 +43,25 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
+                    <outputDirectory>${project.basedir}/src/main/java/ivan/vatlin/soap/cars</outputDirectory>
+                    <clearOutputDir>false</clearOutputDir>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -128,12 +147,6 @@
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.9.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.9.9</version>
         </dependency>
@@ -148,6 +161,18 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.4.4.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version>
         </dependency>
     </dependencies>
 
