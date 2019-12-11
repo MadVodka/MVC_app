@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "brand"
 })
-@XmlRootElement(name = "CarDetailsRequest")
+@XmlRootElement(name = "CarDetailsRequest", namespace = "https://www.ivan.vatlin/cars")
 public class CarDetailsRequest {
 
     @XmlElement(required = true)

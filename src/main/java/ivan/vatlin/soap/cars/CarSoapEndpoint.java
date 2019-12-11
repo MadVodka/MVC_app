@@ -23,7 +23,7 @@ public class CarSoapEndpoint {
         List<Car> cars = iCarDao.getCarsBySearch(request.getBrand(), "brand");
 
         CarDetailsResponse carDetailsResponse = new CarDetailsResponse();
-        carDetailsResponse.setCars(cars);
+        carDetailsResponse.cars = cars;
         return carDetailsResponse;
     }
 }

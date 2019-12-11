@@ -3,10 +3,22 @@ package ivan.vatlin.dto;
 import ivan.vatlin.enums.CarStatus;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 @Table(name = "cars")
 @DiscriminatorColumn
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Car", propOrder = {
+        "id",
+        "carSpecification",
+        "pricePerDay",
+        "registrationNumber",
+        "carStatus"
+})
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,16 +26,20 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "cars_spec_id")
+    @XmlElement(required = true)
     private CarSpecification carSpecification;
 
     @Column(name = "price_per_day")
+    @XmlElement(required = true)
     private double pricePerDay;
 
     @Column(name = "reg_number")
+    @XmlElement(required = true)
     private String registrationNumber;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    @XmlElement(required = true)
     private CarStatus carStatus;
 
     public long getId() {

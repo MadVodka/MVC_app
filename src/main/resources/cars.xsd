@@ -29,6 +29,7 @@
 
     <xs:complexType name="carSpecification">
         <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
             <xs:element name="brand" type="xs:string"/>
             <xs:element name="model" type="xs:string"/>
             <xs:element name="yearMade" type="xs:integer"/>
@@ -43,4 +44,5 @@
             <xs:enumeration value="WRITTEN_OFF"/>
         </xs:restriction>
     </xs:simpleType>
+
 </xs:schema>

@@ -4,20 +4,34 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 @Table(name = "cars_specification")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "carSpecification", propOrder = {
+        "id",
+        "brand",
+        "model",
+        "yearMade"
+})
 public class CarSpecification {
     @Id
     private long id;
 
     @Column
+    @XmlElement(required = true)
     private String brand;
 
     @Column
+    @XmlElement(required = true)
     private String model;
 
     @Column(name = "year_made")
+    @XmlElement(required = true)
     private int yearMade;
 
     public long getId() {
