@@ -23,17 +23,6 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.tomcat.maven</groupId>-->
-<!--                <artifactId>tomcat7-maven-plugin</artifactId>-->
-<!--                <version>2.2</version>-->
-<!--                <configuration>-->
-<!--                    <url>http://localhost:8080/manager/text</url>-->
-<!--                    <username>admin</username>-->
-<!--                    <password>admin</password>-->
-<!--                    <path>/mvc</path>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -58,7 +47,8 @@
                 </executions>
                 <configuration>
                     <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
-                    <outputDirectory>${project.basedir}/src/main/java/ivan/vatlin/soap/cars</outputDirectory>
+                    <schemaFiles>car_specification.xsd</schemaFiles>
+                    <outputDirectory>${project.basedir}/src/main/java/ivan/vatlin/soap/car_specification</outputDirectory>
                     <clearOutputDir>false</clearOutputDir>
                 </configuration>
             </plugin>

@@ -10,8 +10,10 @@ package ivan.vatlin.soap.cars;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 
 /**
@@ -21,14 +23,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <pre>
  * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;choice>
- *         &lt;element ref="{https://www.ivan.vatlin/cars}search"/>
- *         &lt;element name="all" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/choice>
- *     &lt;/restriction>
- *   &lt;/complexContent>
+ *   &lt;simpleContent>
+ *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
+ *       &lt;attribute name="by" use="required" type="{https://www.ivan.vatlin/cars}searchBy" />
+ *     &lt;/extension>
+ *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
  * 
@@ -36,61 +35,62 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "search",
-    "all"
+    "value"
 })
-@XmlRootElement(name = "CarDetailsRequest")
-public class CarDetailsRequest {
+@XmlRootElement(name = "search")
+public class Search {
 
-    protected Search search;
-    protected String all;
-
-    /**
-     * Gets the value of the search property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Search }
-     *     
-     */
-    public Search getSearch() {
-        return search;
-    }
+    @XmlValue
+    protected String value;
+    @XmlAttribute(name = "by", required = true)
+    protected SearchBy by;
 
     /**
-     * Sets the value of the search property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Search }
-     *     
-     */
-    public void setSearch(Search value) {
-        this.search = value;
-    }
-
-    /**
-     * Gets the value of the all property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getAll() {
-        return all;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets the value of the all property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setAll(String value) {
-        this.all = value;
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    /**
+     * Gets the value of the by property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link SearchBy }
+     *     
+     */
+    public SearchBy getBy() {
+        return by;
+    }
+
+    /**
+     * Sets the value of the by property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link SearchBy }
+     *     
+     */
+    public void setBy(SearchBy value) {
+        this.by = value;
     }
 
 }

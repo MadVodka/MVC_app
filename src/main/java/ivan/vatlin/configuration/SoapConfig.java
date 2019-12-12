@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
@@ -17,11 +16,11 @@ import org.springframework.xml.xsd.XsdSchema;
 
 @EnableWs
 @Configuration
-@ComponentScan("ivan.vatlin.soap.cars")
 public class SoapConfig extends WsConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(SoapConfig.class);
 
-    private static final String NAMESPACE = "https://www.ivan.vatlin/cars";
+    private static final String NAMESPACE_CARS = "https://www.ivan.vatlin/cars";
+    private static final String NAMESPACE_CAR_SPECIFICATION = "https://www.ivan.vatlin/car_specification";
 
     @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
@@ -39,7 +38,7 @@ public class SoapConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("CarDetailsPort");
         wsdl11Definition.setLocationUri("/soap");
-        wsdl11Definition.setTargetNamespace(NAMESPACE);
+        wsdl11Definition.setTargetNamespace(NAMESPACE_CARS);
         wsdl11Definition.setSchema(carsSchema);
 
         LOGGER.info("defaultWsdl11Definition initialized");
@@ -50,5 +49,23 @@ public class SoapConfig extends WsConfigurerAdapter {
     @Bean
     public XsdSchema carsSchema() {
         return new SimpleXsdSchema(new ClassPathResource("cars.xsd"));
+    }
+
+    @Bean(name = "carSpecification")
+    public DefaultWsdl11Definition defaultWsdl11DefinitionCarSpecification(XsdSchema carSpecificationSchema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("CarSpecificationDetailsPort");
+        wsdl11Definition.setLocationUri("/soap");
+        wsdl11Definition.setTargetNamespace(NAMESPACE_CAR_SPECIFICATION);
+        wsdl11Definition.setSchema(carSpecificationSchema);
+
+        LOGGER.info("defaultWsdl11DefinitionCarSpecification initialized");
+
+        return wsdl11Definition;
+    }
+
+    @Bean
+    public XsdSchema carSpecificationSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("car_specification.xsd"));
     }
 }

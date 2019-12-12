@@ -20,7 +20,19 @@ public class CarSoapEndpoint {
     @PayloadRoot(namespace = NAMESPACE, localPart = "CarDetailsRequest")
     @ResponsePayload
     public CarDetailsResponse getCars(@RequestPayload CarDetailsRequest request) {
-        List<Car> cars = iCarDao.getCarsBySearch(request.getBrand(), "brand");
+        List<Car> cars = null;
+        Search search = request.getSearch();
+        if (search != null) {
+            if (search.by == SearchBy.BRAND) {
+                cars = iCarDao.getCarsBySearch(search.value, "brand");
+            } else if (search.by == SearchBy.MODEL) {
+                cars = iCarDao.getCarsBySearch(search.value, "model");
+            } else if (search.by == SearchBy.YEAR_MADE) {
+                cars = iCarDao.getCarsBySearch(search.value, "year_made");
+            }
+        } else if (request.getAll() != null) {
+            cars = iCarDao.getAllCars();
+        }
 
         CarDetailsResponse carDetailsResponse = new CarDetailsResponse();
         carDetailsResponse.cars = cars;
