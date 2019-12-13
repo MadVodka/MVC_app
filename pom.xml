@@ -47,8 +47,8 @@
                 </executions>
                 <configuration>
                     <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
-                    <schemaFiles>car_specification.xsd</schemaFiles>
-                    <outputDirectory>${project.basedir}/src/main/java/ivan/vatlin/soap/car_specification</outputDirectory>
+                    <schemaFiles>cars.xsd</schemaFiles>
+                    <outputDirectory>${project.basedir}/src/main/java/ivan/vatlin/soap/cars</outputDirectory>
                     <clearOutputDir>false</clearOutputDir>
                 </configuration>
             </plugin>

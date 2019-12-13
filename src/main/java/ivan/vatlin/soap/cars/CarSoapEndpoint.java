@@ -38,4 +38,15 @@ public class CarSoapEndpoint {
         carDetailsResponse.cars = cars;
         return carDetailsResponse;
     }
+
+    @PayloadRoot(namespace = NAMESPACE, localPart = "CarCreateRequest")
+    @ResponsePayload
+    public CarCreateResponse createCar(@RequestPayload CarCreateRequest request) {
+        Car car = request.getCar();
+        boolean result = iCarDao.createCar(car);
+
+        CarCreateResponse carCreateResponse = new CarCreateResponse();
+        carCreateResponse.setResult(result);
+        return carCreateResponse;
+    }
 }

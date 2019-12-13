@@ -23,15 +23,15 @@ public class CarSpecification {
     private long id;
 
     @Column
-    @XmlElement(required = true)
+    @XmlElement
     private String brand;
 
     @Column
-    @XmlElement(required = true)
+    @XmlElement
     private String model;
 
     @Column(name = "year_made")
-    @XmlElement(required = true)
+    @XmlElement
     private int yearMade;
 
     public long getId() {

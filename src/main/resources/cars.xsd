@@ -18,6 +18,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="CarCreateRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="car" type="tns:Car"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CarCreateResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="search">
         <xs:complexType>
             <xs:simpleContent>
@@ -42,16 +58,16 @@
             <xs:element name="carSpecification" type="tns:carSpecification"/>
             <xs:element name="pricePerDay" type="xs:double"/>
             <xs:element name="registrationNumber" type="xs:string"/>
-            <xs:element name="carStatus" type="tns:carStatus"/>
+            <xs:element name="carStatus" type="tns:carStatus" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="carSpecification">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
-            <xs:element name="brand" type="xs:string"/>
-            <xs:element name="model" type="xs:string"/>
-            <xs:element name="yearMade" type="xs:int"/>
+            <xs:element name="brand" type="xs:string" minOccurs="0"/>
+            <xs:element name="model" type="xs:string" minOccurs="0"/>
+            <xs:element name="yearMade" type="xs:int" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 

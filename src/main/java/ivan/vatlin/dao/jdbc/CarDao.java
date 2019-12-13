@@ -74,4 +74,18 @@ public class CarDao implements ICarDao {
         String sql = "select count(*) from cars";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
+
+    @Override
+    public boolean createCar(Car car) {
+        String sql = "insert into cars (price_per_day, reg_number, cars_spec_id) values (?, ?, ?)";
+        int result;
+
+        try {
+            result = jdbcTemplate.update(sql, car.getPricePerDay(), car.getRegistrationNumber(), car.getCarSpecification().getId());
+        } catch (Exception e) {
+            return false;
+        }
+
+        return result > 0;
+    }
 }

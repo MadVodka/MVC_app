@@ -14,4 +14,6 @@ public interface ICarDao {
     List<Car> getCarsBySearch(String text, String searchByParam);
 
     int getNumberOfCars();
+
+    boolean createCar(Car car);
 }

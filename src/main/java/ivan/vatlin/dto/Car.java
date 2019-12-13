@@ -39,8 +39,8 @@ public class Car {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    @XmlElement(required = true)
-    private CarStatus carStatus;
+    @XmlElement
+    private CarStatus carStatus = CarStatus.IDLE; // by default is IDLE
 
     public long getId() {
         return id;
