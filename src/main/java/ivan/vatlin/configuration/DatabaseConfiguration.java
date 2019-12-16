@@ -20,7 +20,6 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableJpaRepositories(basePackages = "ivan.vatlin.dao.jpa")
-//@EnableCaching
 public class DatabaseConfiguration {
     @Value("${mysql.driver-class-name}")
     private String driverClassName;

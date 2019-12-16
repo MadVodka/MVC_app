@@ -43,7 +43,8 @@ public class CarSoapEndpoint {
     @ResponsePayload
     public CarCreateResponse createCar(@RequestPayload CarCreateRequest request) {
         Car car = request.getCar();
-        boolean result = iCarDao.createCar(car);
+        Car resultCar = iCarDao.createCar(car);
+        boolean result = resultCar != null;
 
         CarCreateResponse carCreateResponse = new CarCreateResponse();
         carCreateResponse.setResult(result);

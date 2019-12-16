@@ -30,6 +30,11 @@ public class RestApiController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping("/car/{id}")
+    public Car showCarById(@PathVariable Long id) {
+        return carService.getCarById(id);
+    }
+
     @GetMapping({"/cars", "/cars/{pageNumber}"})
     public Map<String, Object> showCarsByPage(@PathVariable Optional<Integer> pageNumber) {
         int carsPerPage = 3;

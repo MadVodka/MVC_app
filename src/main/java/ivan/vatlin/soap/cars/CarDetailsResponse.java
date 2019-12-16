@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.*;
 @XmlType(name = "", propOrder = {
     "cars"
 })
-@XmlRootElement(name = "CarDetailResponse")
+@XmlRootElement(name = "CarDetailsResponse")
 public class CarDetailsResponse {
 
     protected List<Car> cars;

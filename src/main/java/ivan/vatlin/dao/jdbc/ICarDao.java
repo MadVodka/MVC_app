@@ -15,5 +15,5 @@ public interface ICarDao {
 
     int getNumberOfCars();
 
-    boolean createCar(Car car);
+    Car createCar(Car car);
 }
