@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,7 +18,7 @@ import java.util.List;
 
 @Repository
 @ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
-@CacheConfig(cacheNames = "cars")
+@CacheConfig(cacheNames = "car")
 public class CarDao implements ICarDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(CarDao.class);
 
@@ -45,7 +43,7 @@ public class CarDao implements ICarDao {
     };
 
     @Override
-    @CachePut
+    @Cacheable(cacheNames = "carsList")
     public List<Car> getAllCars() {
         LOGGER.info("getAllCars invoked");
         String sql = "select c.id, cs.brand, cs.model, cs.year_made, c.reg_number, c.price_per_day, c.status " +
@@ -84,7 +82,6 @@ public class CarDao implements ICarDao {
     }
 
     @Override
-    @CachePut(key = "#car.id")
     public Car createCar(Car car) {
         String sql = "insert into cars (price_per_day, reg_number, cars_spec_id) values (?, ?, ?)";
         int result;
