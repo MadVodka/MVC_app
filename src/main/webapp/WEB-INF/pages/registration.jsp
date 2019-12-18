@@ -33,7 +33,7 @@
                 <div id="password_error"></div>
 
                 <label for="repeatPassword">Повторите пароль</label>
-                <form:input type="password" id="checkPassword" path="matchingPassword"/>
+                <form:input type="password" id="checkPassword"/>
                 <div id="check_password_error"></div>
             </div>
 
