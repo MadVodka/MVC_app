@@ -2,6 +2,7 @@ package ivan.vatlin.dao.jdbc;
 
 import ivan.vatlin.dto.CarSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
 public class CarSpecificationDao implements ICarSpecificationDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;

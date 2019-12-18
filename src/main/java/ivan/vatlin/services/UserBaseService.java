@@ -7,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc", matchIfMissing = true)
 public class UserBaseService implements UserService {
     @Autowired
     private IUserDao userDao;
@@ -66,7 +65,6 @@ public class UserBaseService implements UserService {
         return userDao.getNumberOfUsers();
     }
 
-    @Transactional
     @Override
     public long registerUser(User user) {
         if (getUserByUserName(user.getUserName()) == null) {

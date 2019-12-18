@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc", matchIfMissing = true)
 public class OrderBaseService implements OrderService {
     @Autowired
     private IOrderDao orderDao;

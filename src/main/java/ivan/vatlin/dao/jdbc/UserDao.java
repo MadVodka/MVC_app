@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@ConditionalOnProperty(value = "database.api", havingValue = "jdbc", matchIfMissing = true)
+//@PropertySource("classpath:db.properties")
 @Repository
-@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
 public class UserDao implements IUserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;

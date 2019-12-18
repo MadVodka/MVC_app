@@ -7,11 +7,6 @@
     <groupId>ivan.vatlin</groupId>
     <artifactId>mvc_app</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-
-    <properties>
-        <spring.version>5.2.0.RELEASE</spring.version>
-    </properties>
 
     <build>
         <plugins>
@@ -69,12 +64,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>2.1.8.RELEASE</version>
-        </dependency>
-
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
@@ -88,9 +77,15 @@
         </dependency>
 
         <dependency>
-            <groupId>jstl</groupId>
+            <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>5.2.0.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -121,23 +116,6 @@
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
             <version>1.6.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-            <version>2.1.8.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.cache</groupId>
-            <artifactId>cache-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>3.8.1</version>
         </dependency>
     </dependencies>
 
