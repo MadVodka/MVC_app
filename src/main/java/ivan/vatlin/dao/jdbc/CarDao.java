@@ -6,7 +6,7 @@ import ivan.vatlin.enums.CarStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 @Repository
-@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
+@ConditionalOnBean(JdbcTemplate.class)
 @CacheConfig(cacheNames = "car")
 public class CarDao implements ICarDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(CarDao.class);

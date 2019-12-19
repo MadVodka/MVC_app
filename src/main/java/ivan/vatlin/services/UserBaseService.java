@@ -4,6 +4,7 @@ import ivan.vatlin.dao.jdbc.IUserDao;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ import java.util.List;
 public class UserBaseService implements UserService {
     @Autowired
     private IUserDao userDao;
+
+    @Value("${entity.per.page}")
+    private int usersPerPage;
 
     @Override
     public List<User> getAllUsers() {
@@ -50,7 +54,16 @@ public class UserBaseService implements UserService {
     }
 
     @Override
-    public PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage) {
+    public PageInfo<User> getUsersByPage(Integer pageNumber) {
+        return getUsersByPage(pageNumber, usersPerPage);
+    }
+
+    @Override
+    public PageInfo<User> getUsersByPage(Integer pageNumber, int usersPerPage) {
+        if (pageNumber == null) {
+            pageNumber = 1;
+        }
+
         int startPosition = (pageNumber - 1) * usersPerPage;
         List<User> usersByPage = userDao.getUsersByPage(startPosition, usersPerPage);
 

@@ -34,12 +34,7 @@ public class OrderController {
 
     @GetMapping("/order")
     public ModelAndView showOrderInfo(@RequestParam Long id) {
-        OrderInfo orderById;
-        if (authenticationFacade.hasRole("ADMIN")) {
-            orderById = orderService.getOrderById(id);
-        } else {
-            orderById = orderService.getUsersOrder(authenticationFacade.getAuthentication().getName(), id);
-        }
+        OrderInfo orderById = orderService.getOrderById(id);
 
         if (orderById == null) {
             return new ModelAndView("error");

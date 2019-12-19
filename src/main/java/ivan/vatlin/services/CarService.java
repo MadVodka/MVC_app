@@ -12,7 +12,9 @@ public interface CarService {
 
     List<Car> getCarsBySearch(String text, String searchByParam);
 
-    PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage);
+    PageInfo<Car> getCarPageInfo(Integer pageNumber);
+
+    PageInfo<Car> getCarPageInfo(Integer pageNumber, int carsPerPage);
 
     long getNumberOfCars();
 }

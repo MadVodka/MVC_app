@@ -4,6 +4,7 @@ import ivan.vatlin.dto.Car;
 import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.dao.jpa.CarJpaDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,9 @@ import java.util.List;
 public class CarRentService implements CarService {
     @Autowired
     private CarJpaDao carJpaDao;
+
+    @Value("${entity.per.page}")
+    private int carsPerPage;
 
     @Override
     public List<Car> getAllCars() {
@@ -48,7 +52,15 @@ public class CarRentService implements CarService {
     }
 
     @Override
-    public PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage) {
+    public PageInfo<Car> getCarPageInfo(Integer pageNumber) {
+        return getCarPageInfo(pageNumber, carsPerPage);
+    }
+
+    @Override
+    public PageInfo<Car> getCarPageInfo(Integer pageNumber, int carsPerPage) {
+        if (pageNumber == null) {
+            pageNumber = 1;
+        }
         pageNumber--;
         Page<Car> carPage = carJpaDao.findAll(PageRequest.of(pageNumber, carsPerPage));
         return new PageInfo<>(carPage.getContent(), carPage.getTotalPages());

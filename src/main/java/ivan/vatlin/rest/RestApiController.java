@@ -1,4 +1,4 @@
-package ivan.vatlin.controllers;
+package ivan.vatlin.rest;
 
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.dto.OrderInfo;
@@ -36,19 +36,11 @@ public class RestApiController {
     }
 
     @GetMapping({"/cars", "/cars/{pageNumber}"})
-    public Map<String, Object> showCarsByPage(@PathVariable Optional<Integer> pageNumber) {
-        int carsPerPage = 3;
-        PageInfo<Car> carPageInfo;
-        int currentPage = 1;
-        if (pageNumber.isPresent()) {
-            carPageInfo = carService.getCarPageInfo(pageNumber.get(), carsPerPage);
-            currentPage = pageNumber.get();
-        } else {
-            carPageInfo = carService.getCarPageInfo(1, carsPerPage);
-        }
+    public Map<String, Object> showCarsByPage(@PathVariable(required = false) Integer pageNumber) {
+        PageInfo<Car> carPageInfo= carService.getCarPageInfo(pageNumber);
 
         Map<String, Object> carsInfo = new LinkedHashMap<>();
-        carsInfo.put("currentPage", currentPage);
+        carsInfo.put("currentPage", pageNumber);
         carsInfo.put("numberOfPages", carPageInfo.getNumberOfPages());
         carsInfo.put("cars", carPageInfo.getContent());
 
@@ -56,19 +48,11 @@ public class RestApiController {
     }
 
     @GetMapping({"/users", "/users/{pageNumber}"})
-    public Map<String, Object> showUsersByPage(@PathVariable Optional<Integer> pageNumber) {
-        int usersPerPage = 3;
-        PageInfo<User> userPageInfo;
-        int currentPage = 1;
-        if (pageNumber.isPresent()) {
-            userPageInfo = userService.getUsersByPage(pageNumber.get(), usersPerPage);
-            currentPage = pageNumber.get();
-        } else {
-            userPageInfo = userService.getUsersByPage(1, usersPerPage);
-        }
+    public Map<String, Object> showUsersByPage(@PathVariable Integer pageNumber) {
+        PageInfo<User> userPageInfo=userService.getUsersByPage(pageNumber);
 
         Map<String, Object> usersInfo = new LinkedHashMap<>();
-        usersInfo.put("currentPage", currentPage);
+        usersInfo.put("currentPage", pageNumber);
         usersInfo.put("numberOfPages", userPageInfo.getNumberOfPages());
         usersInfo.put("users", userPageInfo.getContent());
 

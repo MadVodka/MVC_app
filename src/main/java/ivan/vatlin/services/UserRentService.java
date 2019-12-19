@@ -4,6 +4,7 @@ import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
 import ivan.vatlin.dao.jpa.UserJpaDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,9 @@ import java.util.List;
 public class UserRentService implements UserService {
     @Autowired
     private UserJpaDao userJpaDao;
+
+    @Value("${entity.per.page}")
+    private int usersPerPage;
 
     @Override
     public List<User> getAllUsers() {
@@ -60,7 +64,16 @@ public class UserRentService implements UserService {
     }
 
     @Override
-    public PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage) {
+    public PageInfo<User> getUsersByPage(Integer pageNumber) {
+        return getUsersByPage(pageNumber, usersPerPage);
+    }
+
+    @Override
+    public PageInfo<User> getUsersByPage(Integer pageNumber, int usersPerPage) {
+        if (pageNumber == null) {
+            pageNumber = 1;
+        }
+
         pageNumber--;
         Page<User> userPage = userJpaDao.findAll(PageRequest.of(pageNumber, usersPerPage));
         return new PageInfo<>(userPage.getContent(), userPage.getTotalPages());

@@ -17,7 +17,9 @@ public interface UserService {
 
     List<User> getUsersBySearch(String text, String searchBy);
 
-    PageInfo<User> getUsersByPage(int pageNumber, int usersPerPage);
+    PageInfo<User> getUsersByPage(Integer pageNumber);
+
+    PageInfo<User> getUsersByPage(Integer pageNumber, int usersPerPage);
 
     long getNumberOfUsers();
 

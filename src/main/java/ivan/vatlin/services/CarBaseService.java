@@ -4,6 +4,7 @@ import ivan.vatlin.dao.jdbc.ICarDao;
 import ivan.vatlin.dto.Car;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ import java.util.List;
 public class CarBaseService implements CarService {
     @Autowired
     private ICarDao carDao;
+
+    @Value("${entity.per.page}")
+    private int carsPerPage;
 
     @Override
     public List<Car> getAllCars() {
@@ -36,7 +40,16 @@ public class CarBaseService implements CarService {
     }
 
     @Override
-    public PageInfo<Car> getCarPageInfo(int pageNumber, int carsPerPage) {
+    public PageInfo<Car> getCarPageInfo(Integer pageNumber) {
+        return getCarPageInfo(pageNumber, carsPerPage);
+    }
+
+    @Override
+    public PageInfo<Car> getCarPageInfo(Integer pageNumber, int carsPerPage) {
+        if (pageNumber == null) {
+            pageNumber = 1;
+        }
+
         int startPosition = (pageNumber - 1) * carsPerPage;
         List<Car> carsByPage = carDao.getCarsByPage(startPosition, carsPerPage);
 

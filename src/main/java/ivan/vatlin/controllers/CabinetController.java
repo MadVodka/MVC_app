@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/cabinet")
@@ -40,24 +39,16 @@ public class CabinetController {
         return "redirect:cabinet/orders";
     }
 
+
     @GetMapping({"/users/{pageNumber}", "/users"})
-    public ModelAndView showUsersByPage(@PathVariable Optional<Integer> pageNumber, HttpServletRequest request) {
-        int usersPerPage = 3;
-        int currentPage;
-        PageInfo<User> userPageInfo;
-        if (pageNumber.isPresent()) {
-            userPageInfo = userService.getUsersByPage(pageNumber.get(), usersPerPage);
-            currentPage = pageNumber.get();
-        } else {
-            userPageInfo = userService.getUsersByPage(1, usersPerPage);
-            currentPage = 1;
-        }
+    public ModelAndView showUsersByPage(@PathVariable(required = false) Integer pageNumber, HttpServletRequest request) {
+        PageInfo<User> userPageInfo = userService.getUsersByPage(pageNumber);
 
         ModelAndView modelAndView = new ModelAndView("all_users");
-        modelAndView.addObject("userList", userPageInfo.getContent());
-        modelAndView.addObject("currentPage", currentPage);
-        modelAndView.addObject("sectionUrl", request.getContextPath() + "/cabinet/users/");
-        modelAndView.addObject("numberOfPages", userPageInfo.getNumberOfPages());
+        modelAndView.addObject("userList", userPageInfo.getContent())
+                .addObject("currentPage", pageNumber)
+                .addObject("sectionUrl", request.getContextPath() + "/cabinet/users/")
+                .addObject("numberOfPages", userPageInfo.getNumberOfPages());
         return modelAndView;
     }
 
@@ -71,13 +62,7 @@ public class CabinetController {
 
     @GetMapping("/orders")
     public ModelAndView showOrders() {
-        List<OrderInfo> orderInfoList = null;
-        if (authenticationFacade.hasRole("USER")) {
-            String name = authenticationFacade.getAuthentication().getName();
-            orderInfoList = orderService.getOrdersByUserName(name);
-        } else if (authenticationFacade.hasRole("ADMIN")) {
-            orderInfoList = orderService.getAllOrders();
-        }
+        List<OrderInfo> orderInfoList = orderService.getAllOrders();
 
         ModelAndView modelAndView = new ModelAndView("all_orders");
         modelAndView.addObject("orderList", orderInfoList);
@@ -85,21 +70,12 @@ public class CabinetController {
     }
 
     @GetMapping({"/cars", "/cars/{pageNumber}"})
-    public ModelAndView showCarsByPage(@PathVariable Optional<Integer> pageNumber, HttpServletRequest request) {
-        int carsPerPage = 3;
-        PageInfo<Car> carPageInfo;
-        int currentPage;
-        if (pageNumber.isPresent()) {
-            carPageInfo = carService.getCarPageInfo(pageNumber.get(), carsPerPage);
-            currentPage = pageNumber.get();
-        } else {
-            carPageInfo = carService.getCarPageInfo(1, carsPerPage);
-            currentPage = 1;
-        }
+    public ModelAndView showCarsByPage(@PathVariable(required = false) Integer pageNumber, HttpServletRequest request) {
+        PageInfo<Car> carPageInfo = carService.getCarPageInfo(pageNumber);
 
         ModelAndView modelAndView = new ModelAndView("all_cars");
         modelAndView.addObject("carList", carPageInfo.getContent());
-        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("currentPage", pageNumber);
         modelAndView.addObject("sectionUrl", request.getContextPath() + "/cabinet/cars/");
         modelAndView.addObject("numberOfPages", carPageInfo.getNumberOfPages());
         return modelAndView;
