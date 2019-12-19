@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,9 +14,8 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "ivan.vatlin.dao.jpa")
-@PropertySource("classpath:db.properties")
 @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
+@EnableJpaRepositories(basePackages = "ivan.vatlin.dao.jpa")
 public class JpaConfiguration {
     @Value("${hibernate.show_sql}")
     private String showSQLValue;
@@ -26,7 +24,6 @@ public class JpaConfiguration {
     private String dialectValue;
 
     @Bean
-    @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
@@ -37,7 +34,6 @@ public class JpaConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = "database.api", havingValue = "jpa")
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);

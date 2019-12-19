@@ -4,6 +4,7 @@ import ivan.vatlin.dto.User;
 import ivan.vatlin.enums.UserRole;
 import ivan.vatlin.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @ConditionalOnProperty(value = "database.api", havingValue = "jdbc", matchIfMissing = true)
-//@PropertySource("classpath:db.properties")
+@ConditionalOnBean(JdbcTemplate.class)
 @Repository
 public class UserDao implements IUserDao {
     @Autowired

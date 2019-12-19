@@ -4,7 +4,7 @@ import ivan.vatlin.dto.Order;
 import ivan.vatlin.dto.OrderInfo;
 import ivan.vatlin.mappers.OrderInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@ConditionalOnProperty(value = "database.api", havingValue = "jdbc")
+@ConditionalOnBean(JdbcTemplate.class)
 public class OrderDao implements IOrderDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
