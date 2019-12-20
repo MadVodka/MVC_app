@@ -1,0 +1,83 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="https://www.ivan.vatlin/cars"
+           targetNamespace="https://www.ivan.vatlin/cars" elementFormDefault="qualified">
+
+    <xs:element name="CarDetailsRequest">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="tns:search"/>
+                <xs:element name="all" type="xs:string" fixed=""/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CarDetailsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cars" type="tns:Car" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CarCreateRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="car" type="tns:Car"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CarCreateResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="search">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="by" type="tns:searchBy" use="required" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="searchBy">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="brand"/>
+            <xs:enumeration value="model"/>
+            <xs:enumeration value="yearMade"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Car">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="carSpecification" type="tns:carSpecification"/>
+            <xs:element name="pricePerDay" type="xs:double"/>
+            <xs:element name="registrationNumber" type="xs:string"/>
+            <xs:element name="carStatus" type="tns:carStatus" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="carSpecification">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="brand" type="xs:string" minOccurs="0"/>
+            <xs:element name="model" type="xs:string" minOccurs="0"/>
+            <xs:element name="yearMade" type="xs:int" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="carStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="IDLE"/>
+            <xs:enumeration value="IN_USE"/>
+            <xs:enumeration value="IN_MAINTAINANCE"/>
+            <xs:enumeration value="WRITTEN_OFF"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
