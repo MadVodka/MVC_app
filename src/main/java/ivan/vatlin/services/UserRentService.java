@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -18,6 +19,9 @@ import java.util.List;
 public class UserRentService implements UserService {
     @Autowired
     private UserJpaDao userJpaDao;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${entity.per.page}")
     private int usersPerPage;
@@ -86,6 +90,13 @@ public class UserRentService implements UserService {
 
     @Override
     public long registerUser(User user) {
+        if (user == null) {
+            throw new NullPointerException();
+        }
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
         User saveUser = userJpaDao.save(user);
         if (saveUser == null) {
             return -1;

@@ -29,11 +29,8 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(@ModelAttribute User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
         long result = userService.registerUser(user);
-        if (result >= 0) {
+        if (result == 1) {
             return "redirect:login";
         } else {
             return "redirect:error";

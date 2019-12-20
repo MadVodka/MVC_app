@@ -2,11 +2,13 @@ package ivan.vatlin.services;
 
 import ivan.vatlin.dao.jdbc.IUserDao;
 import ivan.vatlin.dto.User;
+import ivan.vatlin.exceptions.DaoUpdateFailException;
 import ivan.vatlin.pagination.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.List;
 public class UserBaseService implements UserService {
     @Autowired
     private IUserDao userDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${entity.per.page}")
     private int usersPerPage;
@@ -80,8 +85,19 @@ public class UserBaseService implements UserService {
 
     @Override
     public long registerUser(User user) {
+        if (user == null) {
+            throw new NullPointerException();
+        }
+
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
         if (getUserByUserName(user.getUserName()) == null) {
-            return userDao.createUser(user);
+            try {
+                return userDao.createUser(user);
+            } catch (DaoUpdateFailException e) {
+                return -1;
+            }
         }
         return -1;
     }

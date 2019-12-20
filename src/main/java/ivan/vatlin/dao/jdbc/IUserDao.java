@@ -2,6 +2,7 @@ package ivan.vatlin.dao.jdbc;
 
 import ivan.vatlin.dto.User;
 import ivan.vatlin.enums.UserRole;
+import ivan.vatlin.exceptions.DaoUpdateFailException;
 
 import java.util.List;
 
@@ -22,5 +23,5 @@ public interface IUserDao {
 
     int getNumberOfUsers();
 
-    int createUser(User user);
+    int createUser(User user) throws DaoUpdateFailException;
 }

@@ -23,6 +23,5 @@ public interface UserService {
 
     long getNumberOfUsers();
 
-    @Transactional
     long registerUser(User user);
 }

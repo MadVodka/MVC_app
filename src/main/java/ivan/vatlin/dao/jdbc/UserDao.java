@@ -3,6 +3,7 @@ package ivan.vatlin.dao.jdbc;
 import ivan.vatlin.dto.User;
 import ivan.vatlin.enums.UserRole;
 import ivan.vatlin.enums.UserStatus;
+import ivan.vatlin.exceptions.DaoUpdateFailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -86,9 +87,13 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public int createUser(User user) {
+    public int createUser(User user) throws DaoUpdateFailException {
         String sql = "insert users (user_name, password, first_name, second_name, role) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, user.getUserName(), user.getPassword(), user.getFirstName(),
+        int updateResult = jdbcTemplate.update(sql, user.getUserName(), user.getPassword(), user.getFirstName(),
                 user.getSecondName(), user.getUserRole().toString());
+        if (updateResult < 1) {
+            throw new DaoUpdateFailException();
+        }
+        return updateResult;
     }
 }
