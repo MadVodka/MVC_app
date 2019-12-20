@@ -1,14 +1,14 @@
 package ivan.vatlin.dao.jdbc;
 
-import ivan.vatlin.dto.Order;
-import ivan.vatlin.dto.OrderInfo;
-import ivan.vatlin.mappers.OrderInfoMapper;
+import ivan.vatlin.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -16,9 +16,33 @@ import java.util.List;
 public class OrderDao implements IOrderDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    
+    private RowMapper<OrderInfo> orderInfoRowMapper = (resultSet, rowNum) -> {
+        OrderInfo orderInfo = new OrderInfo();
 
-    @Autowired
-    private IUserDao userDao;
+        User user = new User();
+        user.setId(resultSet.getLong("users_id"))
+                .setFirstName(resultSet.getString("first_name"))
+                .setSecondName(resultSet.getString("second_name"));
+
+        CarSpecification carSpecification = new CarSpecification();
+        carSpecification.setBrand(resultSet.getString("brand"))
+                .setModel(resultSet.getString("model"))
+                .setYearMade(resultSet.getInt("year_made"));
+
+        Car car = new Car();
+        car.setId(resultSet.getLong("car_id"))
+                .setCarSpecification(carSpecification);
+
+        orderInfo.setId(resultSet.getLong("id"))
+                .setUser(user)
+                .setStartDate(LocalDate.parse(resultSet.getString("start_date")))
+                .setEndDate(LocalDate.parse(resultSet.getString("end_date")))
+                .setCar(car)
+                .setStatus(resultSet.getString("status"));
+
+        return orderInfo;
+    };
 
     @Override
     public List<OrderInfo> getAllOrders() {
@@ -26,7 +50,7 @@ public class OrderDao implements IOrderDao {
                 "(select o.id, o.users_id, u.first_name, u.second_name, o.cars_id, o.start_date, o.end_date, o.status from orders o inner join users u on o.users_id=u.id) as order_user inner join \n" +
                 "(select cars.id as car_id, c_s.brand, c_s.model, c_s.year_made from cars_specification c_s inner join cars on c_s.id = cars.cars_spec_id) as cars_info \n" +
                 "on cars_info.car_id=order_user.cars_id";
-        return jdbcTemplate.query(sql, new OrderInfoMapper());
+        return jdbcTemplate.query(sql, orderInfoRowMapper);
     }
 
     @Override
@@ -35,7 +59,7 @@ public class OrderDao implements IOrderDao {
                 "(select o.id, o.users_id, u.first_name, u.second_name, o.cars_id, o.start_date, o.end_date, o.status from orders o inner join users u on o.users_id=u.id) as order_user inner join " +
                 "(select cars.id as car_id, c_s.brand, c_s.model, c_s.year_made from cars_specification c_s inner join cars on c_s.id = cars.cars_spec_id) as cars_info " +
                 "on cars_info.car_id=order_user.cars_id  where id = " + id;
-        return jdbcTemplate.queryForObject(sql, new OrderInfoMapper());
+        return jdbcTemplate.queryForObject(sql, orderInfoRowMapper);
     }
 
     @Override
@@ -44,7 +68,7 @@ public class OrderDao implements IOrderDao {
                 "(select o.id, o.users_id, u.first_name, u.second_name, o.cars_id, o.start_date, o.end_date, o.status from orders o inner join users u on o.users_id=u.id where u.user_name = ?) as order_user inner join " +
                 "(select cars.id as car_id, c_s.brand, c_s.model, c_s.year_made from cars_specification c_s inner join cars on c_s.id = cars.cars_spec_id) as cars_info " +
                 "on cars_info.car_id=order_user.cars_id";
-        return jdbcTemplate.query(sql, new OrderInfoMapper(), userName);
+        return jdbcTemplate.query(sql, orderInfoRowMapper, userName);
     }
 
     @Override
@@ -91,7 +115,7 @@ public class OrderDao implements IOrderDao {
                     "WHERE\n" +
                     "    id = " + orderId;
             try {
-                return jdbcTemplate.queryForObject(sql, new OrderInfoMapper(), userName);
+                return jdbcTemplate.queryForObject(sql, orderInfoRowMapper, userName);
             } catch (EmptyResultDataAccessException e) {
                 return null;
             }

@@ -2,11 +2,12 @@ package ivan.vatlin.dao.jdbc;
 
 import ivan.vatlin.dto.User;
 import ivan.vatlin.enums.UserRole;
-import ivan.vatlin.mappers.UserMapper;
+import ivan.vatlin.enums.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,22 +19,36 @@ public class UserDao implements IUserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private RowMapper<User> userRowMapper = (resultSet, rowNum) -> {
+        User user = new User();
+
+        user.setId(resultSet.getLong("id"))
+                .setUserName(resultSet.getString("user_name"))
+                .setPassword(resultSet.getString("password"))
+                .setFirstName(resultSet.getString("first_name"))
+                .setSecondName(resultSet.getString("second_Name"))
+                .setUserRole(UserRole.valueOf(resultSet.getString("role")))
+                .setUserStatus(UserStatus.valueOf(resultSet.getString("status")));
+
+        return user;
+    };
+
     @Override
     public List<User> getAllUsers() {
         String sql = "select * from users";
-        return jdbcTemplate.query(sql, new UserMapper());
+        return jdbcTemplate.query(sql, userRowMapper);
     }
 
     @Override
     public User getUserById(long id) {
         String sql = "select * from users where id = ?";
-        return jdbcTemplate.queryForObject(sql, new UserMapper(), id);
+        return jdbcTemplate.queryForObject(sql, userRowMapper, id);
     }
 
     @Override
     public User getUserByUserName(String userName) {
         String sql = "select * from users where user_name = ?";
-        return jdbcTemplate.queryForObject(sql, new UserMapper(), userName);
+        return jdbcTemplate.queryForObject(sql, userRowMapper, userName);
     }
 
     @Override
@@ -48,20 +63,20 @@ public class UserDao implements IUserDao {
 
     public List<User> getUsersByRole(UserRole userRole) {
         String sql = "select * from users where role = ?";
-        return jdbcTemplate.query(sql, new UserMapper(), userRole.toString());
+        return jdbcTemplate.query(sql, userRowMapper, userRole.toString());
     }
 
     @Override
     public List<User> getUsersBySearch(String text, String searchByParam) {
         String textPattern = "%" + text + "%";
         String sql = "select * from users where " + searchByParam + " like ?";
-        return jdbcTemplate.query(sql, new UserMapper(), textPattern);
+        return jdbcTemplate.query(sql, userRowMapper, textPattern);
     }
 
     @Override
     public List<User> getUsersByPage(int pageNumber, int usersPerPage) {
         String sql = "select * from users limit ?, ?";
-        return jdbcTemplate.query(sql, new UserMapper(), pageNumber, usersPerPage);
+        return jdbcTemplate.query(sql, userRowMapper, pageNumber, usersPerPage);
     }
 
     @Override
