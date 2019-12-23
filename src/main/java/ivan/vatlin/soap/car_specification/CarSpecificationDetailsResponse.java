@@ -10,12 +10,12 @@ package ivan.vatlin.soap.car_specification;
 
 import ivan.vatlin.dto.CarSpecification;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -75,7 +75,7 @@ public class CarSpecificationDetailsResponse {
      */
     public List<CarSpecification> getCarSpecifications() {
         if (carSpecifications == null) {
-            carSpecifications = new ArrayList<CarSpecification>();
+            carSpecifications = new ArrayList<>();
         }
         return this.carSpecifications;
     }

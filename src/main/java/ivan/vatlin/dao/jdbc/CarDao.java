@@ -82,7 +82,7 @@ public class CarDao implements ICarDao {
     }
 
     @Override
-    public Car createCar(Car car) {
+    public Car addCar(Car car) {
         String sql = "insert into cars (price_per_day, reg_number, cars_spec_id) values (?, ?, ?)";
         int result;
 

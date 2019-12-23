@@ -62,4 +62,10 @@ public class CarBaseService implements CarService {
     public long getNumberOfCars() {
         return carDao.getNumberOfCars();
     }
+
+    @Override
+    public boolean addCar(Car car) {
+        Car resultCar = carDao.addCar(car);
+        return resultCar != null;
+    }
 }

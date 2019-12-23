@@ -1,7 +1,7 @@
 package ivan.vatlin.soap.cars;
 
-import ivan.vatlin.dao.jdbc.ICarDao;
 import ivan.vatlin.dto.Car;
+import ivan.vatlin.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -15,7 +15,7 @@ public class CarSoapEndpoint {
     private static final String NAMESPACE = "https://www.ivan.vatlin/cars";
 
     @Autowired
-    private ICarDao iCarDao;
+    private CarService carService;
 
     @PayloadRoot(namespace = NAMESPACE, localPart = "CarDetailsRequest")
     @ResponsePayload
@@ -23,15 +23,13 @@ public class CarSoapEndpoint {
         List<Car> cars = null;
         Search search = request.getSearch();
         if (search != null) {
-            if (search.by == SearchBy.BRAND) {
-                cars = iCarDao.getCarsBySearch(search.value, "brand");
-            } else if (search.by == SearchBy.MODEL) {
-                cars = iCarDao.getCarsBySearch(search.value, "model");
-            } else if (search.by == SearchBy.YEAR_MADE) {
-                cars = iCarDao.getCarsBySearch(search.value, "year_made");
+            if (search.by == SearchBy.YEAR_MADE) {
+                cars = carService.getCarsBySearch(search.value, "year_made");
+            } else {
+                cars = carService.getCarsBySearch(search.value, search.by.value());
             }
         } else if (request.getAll() != null) {
-            cars = iCarDao.getAllCars();
+            cars = carService.getAllCars();
         }
 
         CarDetailsResponse carDetailsResponse = new CarDetailsResponse();
@@ -43,8 +41,7 @@ public class CarSoapEndpoint {
     @ResponsePayload
     public CarCreateResponse createCar(@RequestPayload CarCreateRequest request) {
         Car car = request.getCar();
-        Car resultCar = iCarDao.createCar(car);
-        boolean result = resultCar != null;
+        boolean result = carService.addCar(car);
 
         CarCreateResponse carCreateResponse = new CarCreateResponse();
         carCreateResponse.setResult(result);

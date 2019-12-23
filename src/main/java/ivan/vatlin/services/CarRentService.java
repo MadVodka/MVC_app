@@ -70,4 +70,10 @@ public class CarRentService implements CarService {
     public long getNumberOfCars() {
         return carJpaDao.count();
     }
+
+    @Override
+    public boolean addCar(Car car) {
+        Car resultCar = carJpaDao.save(car);
+        return resultCar != null;
+    }
 }

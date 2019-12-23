@@ -2,7 +2,6 @@ package ivan.vatlin.services;
 
 import ivan.vatlin.dto.User;
 import ivan.vatlin.pagination.PageInfo;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

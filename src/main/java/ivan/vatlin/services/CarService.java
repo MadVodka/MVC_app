@@ -17,4 +17,6 @@ public interface CarService {
     PageInfo<Car> getCarPageInfo(Integer pageNumber, int carsPerPage);
 
     long getNumberOfCars();
+
+    boolean addCar(Car car);
 }
